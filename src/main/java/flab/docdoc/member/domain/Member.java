@@ -25,21 +25,33 @@ public class Member {
 
     private String password;
 
-    private Contact contact;
+    private String email;
+
+
 
     @Builder(builderClassName = "AddMemberBuilder", builderMethodName = "AddMemberBuilder")
-    public Member(String loginId, Role role, String password,String phone, String email) {
+    public Member(String loginId, String password, String email) {
         Assert.notNull(loginId, "loginId must not be null");
         Assert.notNull(password, "password must not be null");
-
         this.loginId = loginId;
-        this.role = role;
         this.password = password;
-        this.contact = Contact.builder()
-                .phone(phone)
-                .email(email)
-                .build();
+        this.email = email;
     }
 
+    @Builder(builderClassName = "UpdateMemberBuilder", builderMethodName = "UpdateMemberBuilder")
+    public Member(Long uniqueId,  String password, String email) {
+        Assert.notNull(uniqueId, "uniqueId must not be null");
+        Assert.notNull(password, "password must not be null");
+        this.uniqueId = uniqueId;
+        this.password = password;
+        this.email = email;
+    }
+
+    @Builder(builderClassName = "UpdateMemberBuilder", builderMethodName = "UpdateMemberRole")
+    private Member(Long uniqueId, Role role) {
+        Assert.notNull(uniqueId, "uniqueId must not be null");
+        this.uniqueId = uniqueId;
+        this.role = role;
+    }
 
 }
