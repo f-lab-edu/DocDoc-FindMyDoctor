@@ -1,4 +1,4 @@
-package flab.docdoc.hospital.domain;
+package flab.docdoc.hospitalSubInfo.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

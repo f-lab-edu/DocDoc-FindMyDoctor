@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="flab.docdoc.hospital.repository.HospitalRepository">
-    <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital">
+
+    <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
+        INSERT INTO hospital (
+            business_name,
+            destrict,
+            city,
+            detail_location)
+            VALUES
+            (
+            #{businessName},
+            #{destrict},
+            #{city},
+            #{detailLocation}
+            )
+    </insert>
+
+
+    <insert id="saveSubject" parameterType="flab.docdoc.hospitalSubInfo.domain.Subject">
 
     </insert>
 
 
-    <insert id="saveSubject" parameterType="flab.docdoc.hospital.domain.Subject">
 
-    </insert>
 
 </mapper>

@@ -16,7 +16,10 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@MapperScan(basePackages = "flab.docdoc.common.location.repository, flab.docdoc.hospital.repository, flab.docdoc.member.repository")
+@MapperScan(basePackages = "flab.docdoc.common.vo.location.repository,  " +
+        "flab.docdoc.hospital.repository, " +
+//        "flab.docdoc.member.repository, " +
+        "flab.docdoc.hospitalSubInfo.repository")
 public class DatabaseConfig {
 
     @Bean
@@ -34,7 +37,7 @@ public class DatabaseConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
-        Resource[] arrResource = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/**/*.xml");;
+        Resource[] arrResource = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/*.xml");;
         sqlSessionFactoryBean.setMapperLocations(arrResource);
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
