@@ -25,7 +25,7 @@ public class ContactServiceImpl implements ContactService {
         }
 
         int insertCount = contactRepository.saveContacts(newContacts);
-        if (insertCount < 0 || insertCount != contacts.size()) throw new IllegalArgumentException("입력 오류! 연락 정보는 1 ~ 3개 까지 입력가능합니다.");
+        if (insertCount < 0 || insertCount != contacts.size()) throw new IllegalArgumentException("입력 오류");
     }
 
 

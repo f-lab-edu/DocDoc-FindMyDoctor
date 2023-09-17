@@ -38,12 +38,12 @@ public enum Subject {
     }
 
 
-    private static final Map<String, Subject> findSubject =
+    private static final Map<String, Subject> codeLableMap =
             Stream.of(values()).collect(Collectors.toMap(Subject::getLable, e -> e));
 
     @JsonCreator
     public static Subject ToEnum(String lable) {
-        return Optional.ofNullable(findSubject.get(lable)).orElseThrow(() -> new IllegalStateException("진료과목이 없습니다."));
+        return Optional.ofNullable(codeLableMap.get(lable)).orElseThrow(() -> new IllegalStateException("진료과목이 없습니다."));
     }
 
 

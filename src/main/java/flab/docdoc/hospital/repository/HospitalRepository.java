@@ -17,5 +17,7 @@ public interface HospitalRepository {
 
     public int save(Hospital hospital);
 
+    public int update(Hospital hospital);
+
 
 }

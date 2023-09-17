@@ -28,7 +28,7 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         int insertCount = subjectRepository.saveSubjects(newSubjects);
-        if (insertCount < 0 || insertCount != subjects.size()) throw new IllegalArgumentException("입력 오류! 진료과목은 1개 이상이어야 합니다.");
+        if (insertCount < 0 || insertCount != subjects.size()) throw new IllegalArgumentException("입력 오류");
     }
 
 

@@ -38,26 +38,22 @@ public class Hospital {
         this.detailLocation = detailLocation;
 
     }
-//
-//    @Builder(builderClassName = "UpdateHospitalBuilder", builderMethodName = "UpdateHospitalBuilder")
-//    public Hospital(Long uniqueId, String name, String phone, String email, Location location, String detailLocation, Set<Subject> subjects, Long adminId) {
-//        Assert.notNull(name, "uniqueId must not be null");
-//        Assert.notNull(name, "name must not be null");
-//        Assert.notNull(phone, "phone must not be null");
-//        Assert.notNull(email, "email must not be null");
-//        Assert.notNull(location.getName(), "location name must not be null");
-//        Assert.notNull(location.getParentLocationName(), "parent location name must not be null");
-//        Assert.notNull(detailLocation, "detail location must not be null");
-//        Assert.notEmpty(subjects, "subject must not be empty");
-//
-//        this.uniqueId = uniqueId;
-//        this.name = name;
-//        this.contact = Contact.builder().phone(phone).email(email).build();
-//        this.location = location;
-//        this.detailLocation = detailLocation;
-//        this.subjects = subjects;
-//        this.adminId = adminId;
-//    }
+
+    @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateOpenInfo")
+    public Hospital(Long uniqueId, String businessName, String destrict, String city , String detailLocation) {
+        Assert.notNull(businessName, "uniqueId must not be null");
+        Assert.notNull(businessName, "businessName must not be null");
+        Assert.notNull(destrict, "destrict must not be null");
+        Assert.notNull(city, "city must not be null");
+        Assert.notNull(detailLocation, "detail location must not be null");
+
+        this.uniqueId = uniqueId;
+        this.businessName = businessName;
+        this.destrict = destrict;
+        this.city = city;
+        this.detailLocation = detailLocation;
+
+    }
 
 
 }

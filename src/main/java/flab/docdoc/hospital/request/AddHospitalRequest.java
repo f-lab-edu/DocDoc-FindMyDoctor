@@ -19,7 +19,6 @@ public class AddHospitalRequest {
     @NotBlank
     private String businessName;
 
-    @NotEmpty
     private List<Contact> contacts;
 
     @NotBlank

@@ -18,9 +18,28 @@
     </insert>
 
 
-    <insert id="saveSubject" parameterType="flab.docdoc.hospitalSubInfo.domain.Subject">
+    <select id="findByUniqueId" parameterType="java.lang.Long" resultType="flab.docdoc.hospital.domain.Hospital">
+        SELECT
+            unique_id,
+            business_name,
+            destrict,
+            city,
+            detail_location
+        FROM hospital
+        WHERE unique_id = #{uniqueId}
+    </select>
 
-    </insert>
+    <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
+        UPDATE hospital
+        SET
+            business_name = #{businessName},
+            destrict = #{destrict},
+            city = #{city},
+            detail_location = #{detailLocation}
+        WHERE unique_id = #{uniqueId}
+
+    </update>
+
 
 
 
