@@ -19,10 +19,10 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
 
     @Override
-    public void saveTags(Long hospitalUniqueId, Set<Tag> tags) {
+    public void saveTags(String hospitalUniqueId, Set<Tag> tags) {
         List<HospitalTag> newTags = HospitalTag.of(hospitalUniqueId, tags);
 
-        Long count = tagRepository.countByHospitalUniqueId(hospitalUniqueId);
+        int count = tagRepository.countByHospitalUniqueId(hospitalUniqueId);
         if (count > 0) {
             int deleteCount = tagRepository.deleteByHospitalUniqueId(hospitalUniqueId);
             if (count != deleteCount) throw new IllegalArgumentException("삭제 오류");

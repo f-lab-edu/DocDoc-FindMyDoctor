@@ -10,10 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface HospitalRepository {
 
 
-    public Hospital findByUniqueId(Long hospitalId);
+    public Hospital findByUniqueId(String hospitalId);
 
-//    public Hospital findByUniqueIdAndAdminUniqueId(Long uniqueId, Long adminUniqueId);
-    //select * from hospital where unique_id = #{uniqueId0} and admin_unique_id = #{adminUniqueId};
 
     public int save(Hospital hospital);
 

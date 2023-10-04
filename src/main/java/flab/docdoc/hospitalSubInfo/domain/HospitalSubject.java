@@ -12,19 +12,19 @@ import java.util.Set;
 @Slf4j
 public class HospitalSubject {
 
-    private Long hospitalUniqueId;
+    private String hospitalUniqueId;
     private Subject subject;
 
 
     @Builder(builderClassName = "HospitalSubjectBuilder", builderMethodName = "HospitalSubjectBuilder")
-    public HospitalSubject(Long hospitalUniqueId, Subject subject) {
+    public HospitalSubject(String hospitalUniqueId, Subject subject) {
         Assert.notNull(subject, "subject must be not null");
         this.hospitalUniqueId = hospitalUniqueId;
         this.subject = subject;
     }
 
 
-    public static List<HospitalSubject> of(Long hospitalUniqueId, Set<Subject> subjects) {
+    public static List<HospitalSubject> of(String hospitalUniqueId, Set<Subject> subjects) {
         Assert.notNull(hospitalUniqueId, "hospitalUniqueId must be not null");
         return  subjects.stream()
                 .map(v -> HospitalSubject.HospitalSubjectBuilder()
@@ -35,3 +35,4 @@ public class HospitalSubject {
     }
 
 }
+

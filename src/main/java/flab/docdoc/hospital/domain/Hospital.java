@@ -1,57 +1,60 @@
 package flab.docdoc.hospital.domain;
 
 
-import flab.docdoc.common.vo.location.domain.Location;
-import flab.docdoc.hospitalSubInfo.domain.Contact;
-import flab.docdoc.hospitalSubInfo.domain.HospitalSubject;
-import flab.docdoc.hospitalSubInfo.domain.Subject;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
-
-import java.util.List;
-import java.util.Set;
 
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
 public class Hospital {
-    private Long uniqueId;
-    private String businessName;
-    private String destrict;
-    private String city;
-    private String detailLocation;
+    private String uniqueId; //ykiho -- pk
+    private String businessName; //yadmNm
+    private String sidoNm; //sidoCdNm
+    private String sgguNm; //sgguCdNm
+    private String addr; //addr
+    private String tel; //telno
+    private String xPos; //XPos
+    private String yPos; //YPos
+
     private Long adminId;
 
     @Builder(builderClassName = "AddHospitalBuilder", builderMethodName = "AddHospitalBuilder")
-    public Hospital(String businessName, String destrict, String city , String detailLocation) {
+    public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos) {
+        Assert.notNull(uniqueId, "uniqueId must not be null");
         Assert.notNull(businessName, "businessName must not be null");
-        Assert.notNull(destrict, "destrict must not be null");
-        Assert.notNull(city, "city must not be null");
-        Assert.notNull(detailLocation, "detail location must not be null");
-
-
-        this.businessName = businessName;
-        this.destrict = destrict;
-        this.city = city;
-        this.detailLocation = detailLocation;
-
-    }
-
-    @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateOpenInfo")
-    public Hospital(Long uniqueId, String businessName, String destrict, String city , String detailLocation) {
-        Assert.notNull(businessName, "uniqueId must not be null");
-        Assert.notNull(businessName, "businessName must not be null");
-        Assert.notNull(destrict, "destrict must not be null");
-        Assert.notNull(city, "city must not be null");
-        Assert.notNull(detailLocation, "detail location must not be null");
+        Assert.notNull(sidoNm, "sidoNm must not be null");
+        Assert.notNull(sgguNm, "sgguNm must not be null");
+        Assert.notNull(addr, "addr must not be null");
 
         this.uniqueId = uniqueId;
         this.businessName = businessName;
-        this.destrict = destrict;
-        this.city = city;
-        this.detailLocation = detailLocation;
+        this.sidoNm = sidoNm;
+        this.sgguNm = sgguNm;
+        this.addr = addr;
+        this.tel = tel;
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+
+    @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateOpenInfo")
+    public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos, Long adminId) {
+        Assert.notNull(uniqueId, "uniqueId must not be null");
+        Assert.notNull(businessName, "businessName must not be null");
+        Assert.notNull(sidoNm, "sidoNm must not be null");
+        Assert.notNull(sgguNm, "sgguNm must not be null");
+        Assert.notNull(addr, "addr must not be null");
+        this.uniqueId = uniqueId;
+        this.businessName = businessName;
+        this.sidoNm = sidoNm;
+        this.sgguNm = sgguNm;
+        this.addr = addr;
+        this.tel = tel;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.adminId = adminId;
 
     }
 

@@ -17,43 +17,44 @@ public class HospitalServiceImpl implements HospitalService{
 
     private final HospitalRepository hospitalRepository;
     private final HospitalSubInfoService hospitalSubInfoService;
- //   private final LocationService locationService;
+    //   private final LocationService locationService;
 
     @Override
-    public Hospital findByUniqueId(Long hospitalUniqueId) {
+    public Hospital findByUniqueId(String hospitalUniqueId) {
         if (hospitalUniqueId == null) throw new IllegalArgumentException("입력 값을 다시 확인해주세요.");
         return hospitalRepository.findByUniqueId(hospitalUniqueId);
     }
 
-    private Boolean isExistHospital(Long hospitalUniqueId) {
+    private Boolean isExistHospital(String hospitalUniqueId) {
         Hospital hospital = findByUniqueId(hospitalUniqueId);
         if (hospital == null) return false;
         return true;
     }
 
-     @Override
-     @Transactional
-     public void save(AddHospitalRequest request) {
+    @Override
+    @Transactional
+    public void save(AddHospitalRequest request) {
         Hospital hospital = AddHospitalRequest.of(request);
         int saveResult = hospitalRepository.save(hospital);
 
         if (saveResult != 1 || hospital.getUniqueId() == null)
-        throw new IllegalArgumentException("병원 등록 실패. 다시 시도해주세요.");
+            throw new IllegalArgumentException("병원 등록 실패. 다시 시도해주세요.");
 
-        hospitalSubInfoService.save(hospital.getUniqueId(), request.getContacts(), request.getSubjects());
+        hospitalSubInfoService.save(hospital.getUniqueId(), request.getSubjects());
     }
 
     @Override
+    @Transactional
     public void update(UpdateHospitalRequest request) {
         Hospital hospital = UpdateHospitalRequest.of(request);
         if (!isExistHospital(hospital.getUniqueId())) throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
 
         int updateResult = hospitalRepository.update(hospital);
-        log.info(String.valueOf(updateResult));
+
 
         if (updateResult != 1) throw new IllegalArgumentException("병원 정보 수정 실패. 다시 시도해주세요.");
 
-        hospitalSubInfoService.update(hospital.getUniqueId(), request.getContacts(), request.getSubjects(), request.getWorkdays(), request.getHolidays(), request.getTags());
+        hospitalSubInfoService.update(hospital.getUniqueId(), request.getSubjects(), request.getWorkdays(), request.getHolidays(), request.getTags());
     }
 
 

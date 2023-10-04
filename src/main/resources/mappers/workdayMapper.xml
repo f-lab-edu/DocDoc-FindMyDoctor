@@ -2,28 +2,31 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="flab.docdoc.hospitalSubInfo.repository.WorkdayRepository">
 
-    <select id="countByHospitalUniqueId" parameterType="java.lang.Long" resultType="java.lang.Long" >
+    <select id="countByHospitalUniqueId" parameterType="java.lang.String" resultType="java.lang.Integer" >
         SELECT COUNT(*)
-        FROM work_day
+        FROM workday
         WHERE hospital_unique_id = #{hospitalUniqueId}
     </select>
     <insert id="saveWorkdays" parameterType="java.util.List" >
-        INSERT INTO work_day (
+        INSERT INTO workday (
+                work_flag,
                 hospital_unique_id,
                 weekday,
                 st_time,
                 ed_time)
                 VALUES
         <foreach collection="workdays" item="item"  separator=",">
-            (#{item.hospitalUniqueId},
+            (
+            #{item.workFlag},
+            #{item.hospitalUniqueId},
             #{item.weekday},
             #{item.stTime},
             #{item.edTime})
         </foreach>
     </insert>
 
-    <delete id="deleteByHospitalUniqueId" parameterType="java.lang.Long">
-        DELETE FROM work_day
+    <delete id="deleteByHospitalUniqueId" parameterType="java.lang.String">
+        DELETE FROM workday
         WHERE hospital_unique_id = #{hospitalUniqueId}
     </delete>
 </mapper>

@@ -7,6 +7,6 @@ import java.util.Set;
 
 public interface TagService {
 
-    public void saveTags(Long hospitalUniqueId, Set<Tag> tags);
+    public void saveTags(String hospitalUniqueId, Set<Tag> tags);
 
 }

@@ -1,9 +1,7 @@
 package flab.docdoc.hospitalSubInfo.service;
 
-import flab.docdoc.hospitalSubInfo.domain.Contact;
 import flab.docdoc.hospitalSubInfo.domain.HospitalSubject;
 import flab.docdoc.hospitalSubInfo.domain.Subject;
-import flab.docdoc.hospitalSubInfo.repository.ContactRepository;
 import flab.docdoc.hospitalSubInfo.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +16,10 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectRepository subjectRepository;
 
     @Override
-    public void saveSubjects(Long hospitalUniqueId, Set<Subject> subjects) {
+    public void saveSubjects(String hospitalUniqueId, Set<Subject> subjects) {
         List<HospitalSubject> newSubjects = HospitalSubject.of(hospitalUniqueId, subjects);
 
-        Long count = subjectRepository.countByHospitalUniqueId(hospitalUniqueId);
+        int count = subjectRepository.countByHospitalUniqueId(hospitalUniqueId);
         if (count > 0) {
             int deleteCount = subjectRepository.deleteByHospitalUniqueId(hospitalUniqueId);
             if (count != deleteCount) throw new IllegalArgumentException("삭제 오류");

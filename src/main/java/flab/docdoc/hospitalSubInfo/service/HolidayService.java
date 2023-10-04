@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface HolidayService {
-
-    public void saveHolidays(Long hospitalUniqueId, Set<Holiday> holidays);
+    public void saveHolidays(String hospitalUniqueId, Set<Holiday> holidays);
 
 
 }

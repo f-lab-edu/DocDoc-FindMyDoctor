@@ -10,19 +10,19 @@ import java.util.Set;
 @Getter
 public class HospitalTag {
 
-    private Long hospitalUniqueId;
+    private String hospitalUniqueId;
     private Tag tag;
 
 
     @Builder(builderClassName = "HospitalTagBuilder", builderMethodName = "HospitalTagBuilder")
-    public HospitalTag(Long hospitalUniqueId, Tag tag) {
+    public HospitalTag(String hospitalUniqueId, Tag tag) {
         Assert.notNull(tag, "tag must be not null");
         this.hospitalUniqueId = hospitalUniqueId;
         this.tag = tag;
     }
 
 
-    public static List<HospitalTag> of(Long hospitalUniqueId, Set<Tag> tags) {
+    public static List<HospitalTag> of(String hospitalUniqueId, Set<Tag> tags) {
         Assert.notNull(hospitalUniqueId, "hospitalUniqueId must be not null");
         return  tags.stream()
                 .map((v) -> HospitalTag.HospitalTagBuilder()

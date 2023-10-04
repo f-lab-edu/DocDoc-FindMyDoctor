@@ -11,24 +11,21 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class HospitalSubInfoService {
 
-    private final ContactService contactService;
     private final SubjectService subjectService;
     private final WorkdayService workdayService;
     private final HolidayService holidayService;
     private final TagService tagService;
 
 
-    public void save(Long hospitalUniqueId, List<Contact> contacts, Set<Subject> subjects) {
-
-        contactService.saveContacts(hospitalUniqueId, contacts);
+    public void save(String hospitalUniqueId, Set<Subject> subjects) {
         subjectService.saveSubjects(hospitalUniqueId, subjects);
     }
 
-    public void update(Long hospitalUniqueId, List<Contact> contacts, Set<Subject> subjects, List<Workday> workdays, Set<Holiday> holidays, Set<Tag> tags) {
-        contactService.saveContacts(hospitalUniqueId, contacts);
+    public void update(String hospitalUniqueId, Set<Subject> subjects, List<Workday> workdays, Set<Holiday> holidays, Set<Tag> tags) {
         subjectService.saveSubjects(hospitalUniqueId, subjects);
         workdayService.saveWorkdays(hospitalUniqueId,workdays);
         holidayService.saveHolidays(hospitalUniqueId, holidays);
+        if (1==1) throw new IllegalArgumentException("test");
         tagService.saveTags(hospitalUniqueId, tags);
     }
 

@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface HolidayRepository {
 
-    public Long countByHospitalUniqueId(Long hospitalUniqueId);
+    public int countByHospitalUniqueId(String hospitalUniqueId);
 
     public int saveHolidays(List<Holiday> holidays);
 
-    public int deleteByHospitalUniqueId(Long hospitalUniqueId);
+    public int deleteByHospitalUniqueId(String hospitalUniqueId);
 }

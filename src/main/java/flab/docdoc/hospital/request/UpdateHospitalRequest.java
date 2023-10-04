@@ -16,21 +16,21 @@ import java.util.Set;
 public class UpdateHospitalRequest {
 
     @NotNull
-    private Long uniqueId;
+    private String uniqueId;
 
-    @NotBlank
+    @NotNull
     private String businessName;
 
-    private List<Contact> contacts;
+    private String tel;
 
-    @NotBlank
-    private String destrict;
+    @NotNull
+    private String sidoNm;
 
-    @NotBlank
-    private String city;
+    @NotNull
+    private String sgguNm;
 
-    @NotBlank
-    private String detailLocation;
+    @NotNull
+    private String addr;
 
     @NotEmpty
     private Set<Subject> subjects;
@@ -46,9 +46,10 @@ public class UpdateHospitalRequest {
         return Hospital.UpdateOpenInfo()
                 .uniqueId(request.getUniqueId())
                 .businessName(request.getBusinessName())
-                .destrict(request.getDestrict())
-                .city(request.getCity())
-                .detailLocation(request.getDetailLocation())
+                .tel(request.getTel())
+                .sidoNm(request.getSidoNm())
+                .sgguNm(request.getSgguNm())
+                .addr(request.getAddr())
                 .build();
     }
 

@@ -14,7 +14,9 @@ public enum Weekday {
     THURSDAY(4),
     FRIDAY(5),
     SATURDAY(6),
-    SUNDAY(7);
+    SUNDAY(7),
+    WEEKDAYBREAK(8),
+    WEEKENDBREAK(9);
 
     private final int sequence;
 

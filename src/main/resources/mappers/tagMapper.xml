@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="flab.docdoc.hospitalSubInfo.repository.TagRepository">
 
-    <select id="countByHospitalUniqueId" parameterType="java.lang.Long" resultType="java.lang.Long" >
+    <select id="countByHospitalUniqueId" parameterType="java.lang.String" resultType="java.lang.Integer" >
         SELECT COUNT(*)
         FROM tag
         WHERE hospital_unique_id = #{hospitalUniqueId}
@@ -18,7 +18,7 @@
         </foreach>
     </insert>
 
-    <delete id="deleteByHospitalUniqueId" parameterType="java.lang.Long">
+    <delete id="deleteByHospitalUniqueId" parameterType="java.lang.String">
         DELETE FROM tag
         WHERE hospital_unique_id = #{hospitalUniqueId}
     </delete>

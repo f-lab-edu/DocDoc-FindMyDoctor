@@ -7,7 +7,7 @@ import flab.docdoc.hospital.request.UpdateHospitalRequest;
 
 public interface HospitalService {
 
-    public Hospital findByUniqueId(Long hospitalUniqueId);
+    public Hospital findByUniqueId(String hospitalUniqueId);
 
     public void save(AddHospitalRequest request);
 

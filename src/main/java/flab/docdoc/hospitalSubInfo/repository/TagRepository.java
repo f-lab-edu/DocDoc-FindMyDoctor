@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface TagRepository {
 
-    public Long countByHospitalUniqueId(Long hospitalUniqueId);
+    public int countByHospitalUniqueId(String hospitalUniqueId);
 
     public int saveTags(List<HospitalTag> tags);
 
-    public int deleteByHospitalUniqueId(Long hospitalUniqueId);
+    public int deleteByHospitalUniqueId(String hospitalUniqueId);
 }

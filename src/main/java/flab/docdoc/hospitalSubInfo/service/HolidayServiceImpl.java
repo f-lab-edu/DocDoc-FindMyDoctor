@@ -1,8 +1,6 @@
 package flab.docdoc.hospitalSubInfo.service;
 
-import flab.docdoc.hospitalSubInfo.domain.Contact;
 import flab.docdoc.hospitalSubInfo.domain.Holiday;
-import flab.docdoc.hospitalSubInfo.repository.ContactRepository;
 import flab.docdoc.hospitalSubInfo.repository.HolidayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +15,10 @@ public class HolidayServiceImpl implements HolidayService {
     private final HolidayRepository holidayRepositroy;
 
     @Override
-    public void saveHolidays(Long hospitalUniqueId, Set<Holiday> holidays) {
+    public void saveHolidays(String hospitalUniqueId, Set<Holiday> holidays) {
         List<Holiday> newHolidays = Holiday.of(hospitalUniqueId, holidays);
 
-        Long count = holidayRepositroy.countByHospitalUniqueId(hospitalUniqueId);
+        int count = holidayRepositroy.countByHospitalUniqueId(hospitalUniqueId);
         if (count > 0) {
             int deleteCount = holidayRepositroy.deleteByHospitalUniqueId(hospitalUniqueId);
             if (count != deleteCount) throw new IllegalArgumentException("삭제 오류");

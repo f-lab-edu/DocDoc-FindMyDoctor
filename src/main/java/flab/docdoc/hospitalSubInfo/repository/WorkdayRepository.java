@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface WorkdayRepository {
 
-    public Long countByHospitalUniqueId(Long hospitalUniqueId);
+    public int countByHospitalUniqueId(String hospitalUniqueId);
 
     public int saveWorkdays(List<Workday> workdays);
 
-    public int deleteByHospitalUniqueId(Long hospitalUniqueId);
+    public int deleteByHospitalUniqueId(String hospitalUniqueId);
 }
