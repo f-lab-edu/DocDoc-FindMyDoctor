@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.docdoc.hospital.repository.HospitalRepository">
+
+    <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
+        INSERT INTO hospital (
+            unique_id,
+            business_name,
+            tel,
+            sido_nm,
+            sggu_nm,
+            addr)
+            VALUES
+            (
+            #{uniqueId},
+            #{businessName},
+            #{tel},
+            #{sidoNm},
+            #{sgguNm},
+            #{addr}
+            )
+    </insert>
+
+
+    <select id="findByUniqueId" parameterType="java.lang.String" resultType="flab.docdoc.hospital.domain.Hospital">
+        SELECT
+            unique_id,
+            business_name,
+            tel,
+            sido_nm,
+            sggu_nm,
+            addr
+        FROM hospital
+        WHERE unique_id = #{uniqueId}
+    </select>
+
+    <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
+        UPDATE hospital
+        SET
+            business_name = #{businessName},
+            tel = #{tel},
+            sido_nm = #{sidoNm},
+            sggu_nm = #{sgguNm},
+            addr = #{addr}
+        WHERE unique_id = #{uniqueId}
+    </update>
+
+
+
+
+
+</mapper>
