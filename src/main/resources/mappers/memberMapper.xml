@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.docdoc.member.repository.MemberRepository">
+    <select id="findByUniqueId" parameterType="java.lang.Long" resultType="flab.docdoc.member.domain.Member">
+        SELECT
+            *
+        FROM
+            member
+        WHERE
+            unique_id = #{uniqueId}
+    </select>
+
+    <select id="findByLoginId" parameterType="java.lang.String" resultType="flab.docdoc.member.domain.Member">
+        SELECT
+            *
+        FROM member
+        WHERE
+            login_id = #{loginId}
+    </select>
+
+    <insert id="save" parameterType="flab.docdoc.member.domain.Member" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
+        INSERT INTO member
+            (role,
+            login_id,
+            password,
+            email)
+        VALUES
+            (#{role},
+            #{loginId},
+            #{password},
+            #{email})
+    </insert>
+
+
+    <update id="update" parameterType="flab.docdoc.member.domain.Member">
+        UPDATE member
+        SET
+            password = #{password},
+            email= #{email}
+        WHERE
+            unique_id = #{uniqueId}
+    </update>
+
+
+
+
+
+</mapper>
