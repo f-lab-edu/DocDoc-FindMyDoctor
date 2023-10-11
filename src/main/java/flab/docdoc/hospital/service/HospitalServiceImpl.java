@@ -17,7 +17,6 @@ public class HospitalServiceImpl implements HospitalService{
 
     private final HospitalRepository hospitalRepository;
     private final HospitalSubInfoService hospitalSubInfoService;
-    //   private final LocationService locationService;
 
     @Override
     public Hospital findByUniqueId(String hospitalUniqueId) {
@@ -26,9 +25,7 @@ public class HospitalServiceImpl implements HospitalService{
     }
 
     private Boolean isExistHospital(String hospitalUniqueId) {
-        Hospital hospital = findByUniqueId(hospitalUniqueId);
-        if (hospital == null) return false;
-        return true;
+        return findByUniqueId(hospitalUniqueId) != null;
     }
 
     @Override
@@ -50,8 +47,6 @@ public class HospitalServiceImpl implements HospitalService{
         if (!isExistHospital(hospital.getUniqueId())) throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
 
         int updateResult = hospitalRepository.update(hospital);
-
-
         if (updateResult != 1) throw new IllegalArgumentException("병원 정보 수정 실패. 다시 시도해주세요.");
 
         hospitalSubInfoService.update(hospital.getUniqueId(), request.getSubjects());
