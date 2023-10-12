@@ -36,7 +36,7 @@ public class Hospital {
         this.yPos = yPos;
     }
 
-    @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateOpenInfo")
+    @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateHospitalBuilder")
     public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos, Long adminId) {
         Assert.notNull(uniqueId, "uniqueId must not be null");
         Assert.notNull(businessName, "businessName must not be null");

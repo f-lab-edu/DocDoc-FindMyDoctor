@@ -43,7 +43,9 @@ public enum Subject {
 
     @JsonCreator
     public static Subject ToEnum(String lable) {
-        return Optional.ofNullable(codeLableMap.get(lable)).orElseThrow(() -> new IllegalStateException("진료과목이 없습니다."));
+        Subject subject = codeLableMap.get(lable);
+        if (subject == null) throw new IllegalArgumentException("진료과목이 없습니다.");
+        return subject;
     }
 
 

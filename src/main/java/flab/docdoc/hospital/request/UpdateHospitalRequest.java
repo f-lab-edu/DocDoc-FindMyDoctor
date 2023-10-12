@@ -35,7 +35,7 @@ public class UpdateHospitalRequest {
     private Set<Subject> subjects;
 
     public static Hospital of(UpdateHospitalRequest request) {
-        return Hospital.UpdateOpenInfo()
+        return Hospital.UpdateHospitalBuilder()
                 .uniqueId(request.getUniqueId())
                 .businessName(request.getBusinessName())
                 .tel(request.getTel())
