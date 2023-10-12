@@ -24,13 +24,15 @@ public class HospitalServiceImpl implements HospitalService{
         return hospitalRepository.findByUniqueId(hospitalUniqueId);
     }
 
-    private Boolean isExistHospital(String hospitalUniqueId) {
+    private boolean isExistHospital(String hospitalUniqueId) {
         return findByUniqueId(hospitalUniqueId) != null;
     }
 
     @Override
     @Transactional
     public void save(AddHospitalRequest request) {
+        if (isExistHospital(request.getUniqueId())) throw new IllegalArgumentException("이미 존재하는 병원 입니다.");
+
         Hospital hospital = AddHospitalRequest.of(request);
         int saveResult = hospitalRepository.save(hospital);
 
@@ -43,8 +45,9 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public void update(UpdateHospitalRequest request) {
+        if (!isExistHospital(request.getUniqueId())) throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
+
         Hospital hospital = UpdateHospitalRequest.of(request);
-        if (!isExistHospital(hospital.getUniqueId())) throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
 
         int updateResult = hospitalRepository.update(hospital);
         if (updateResult != 1) throw new IllegalArgumentException("병원 정보 수정 실패. 다시 시도해주세요.");

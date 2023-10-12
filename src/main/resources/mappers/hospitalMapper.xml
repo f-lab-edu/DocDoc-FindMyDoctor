@@ -3,24 +3,21 @@
 <mapper namespace="flab.docdoc.hospital.repository.HospitalRepository">
 
     <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
-        INSERT INTO hospital (
-            unique_id,
+        INSERT INTO hospital
+            (unique_id,
             business_name,
             tel,
             sido_nm,
             sggu_nm,
             addr)
-            VALUES
-            (
-            #{uniqueId},
+        VALUES
+            (#{uniqueId},
             #{businessName},
             #{tel},
             #{sidoNm},
             #{sgguNm},
-            #{addr}
-            )
+            #{addr})
     </insert>
-
 
     <select id="findByUniqueId" parameterType="java.lang.String" resultType="flab.docdoc.hospital.domain.Hospital">
         SELECT
@@ -31,22 +28,19 @@
             sggu_nm,
             addr
         FROM hospital
-        WHERE unique_id = #{uniqueId}
+        WHERE
+            unique_id = #{uniqueId}
     </select>
 
     <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
         UPDATE hospital
-        SET
+            SET
             business_name = #{businessName},
             tel = #{tel},
             sido_nm = #{sidoNm},
             sggu_nm = #{sgguNm},
             addr = #{addr}
-        WHERE unique_id = #{uniqueId}
+        WHERE
+            unique_id = #{uniqueId}
     </update>
-
-
-
-
-
 </mapper>
