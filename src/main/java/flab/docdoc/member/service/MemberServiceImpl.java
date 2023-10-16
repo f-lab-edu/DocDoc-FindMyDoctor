@@ -5,6 +5,7 @@ import flab.docdoc.member.domain.Member;
 import flab.docdoc.member.repository.MemberRepository;
 import flab.docdoc.member.request.AddMemberRequest;
 import flab.docdoc.member.request.UpdateMemberRequest;
+import flab.docdoc.member.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,15 @@ public class MemberServiceImpl implements MemberService{
             throw new IllegalArgumentException("아이디를 입력해 주세요.");
         }
         return memberRepository.findByUniqueId(memberUniqueId);
+    }
+
+    @Override
+    public MemberResponse findMemberInfo(String loginId) {
+        Member existMember = findByLoginId(loginId);
+        if (existMember == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원 입니다.");
+        }
+        return MemberResponse.of(existMember);
     }
 
     @Override
