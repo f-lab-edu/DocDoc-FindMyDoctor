@@ -16,10 +16,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@MapperScan(basePackages =
-        "flab.docdoc.member.repository, " +
-        "flab.docdoc.hospital.repository, " +
-        "flab.docdoc.hospitalSubInfo.repository")
+@MapperScan(basePackages = "flab.docdoc.member.repository")
 public class DatabaseConfig {
 
     @Bean
