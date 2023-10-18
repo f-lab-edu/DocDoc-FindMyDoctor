@@ -24,4 +24,17 @@
         WHERE
             hospital_unique_id = #{hospitalUniqueId}
     </delete>
+
+    <select id="findByHospitalUniqueId" parameterType="java.lang.String" resultMap="subjectResultMap">
+        SELECT
+            subject
+        FROM subject
+        WHERE
+            hospital_unique_id = #{hospitalUniqueId}
+    </select>
+
+
+    <resultMap id="subjectResultMap" type="flab.docdoc.hospitalSubInfo.domain.Subject">
+        <result column="subject" property="subject" javaType="flab.docdoc.hospitalSubInfo.domain.Subject" typeHandler="org.apache.ibatis.type.EnumTypeHandler"></result>
+    </resultMap>
 </mapper>
