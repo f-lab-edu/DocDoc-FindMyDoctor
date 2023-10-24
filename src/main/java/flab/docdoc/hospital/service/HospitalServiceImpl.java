@@ -7,6 +7,7 @@ import flab.docdoc.hospital.request.UpdateHospitalRequest;
 import flab.docdoc.hospital.response.HospitalResponse;
 import flab.docdoc.hospitalSubInfo.domain.SubInfo;
 import flab.docdoc.hospitalSubInfo.service.HospitalSubInfoService;
+import flab.docdoc.review.domain.HospitalStatistics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,14 @@ public class HospitalServiceImpl implements HospitalService{
 
         if (updateResult != 1) {
             throw new IllegalArgumentException("병원 정보 수정실패. 다시 시도해주세요.");
+        }
+    }
+
+    @Override
+    public void updateStatistics(HospitalStatistics statistics) {
+        int updateResult = hospitalRepository.updateStatistics(statistics);
+        if (updateResult != 1) {
+            throw new IllegalArgumentException("업데이트 실패! 다시 시도해주세요.");
         }
     }
 

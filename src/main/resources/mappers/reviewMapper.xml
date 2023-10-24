@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.docdoc.review.repository.ReviewRepository">
+
+    <insert id="save" parameterType="flab.docdoc.review.domain.Review" useGeneratedKeys="true" keyProperty="reviewUniqueId" keyColumn="review_unique_id">
+        INSERT INTO review
+            (hospital_unique_id,
+            member_unique_id,
+            star,
+            content,
+            visit_date)
+        VALUES
+            (#{hospitalUniqueId},
+            #{memberUniqueId},
+            #{star},
+            #{content},
+            #{visitDate})
+    </insert>
+
+    <select id="findByUniqueId" parameterType="java.lang.Long" resultType="flab.docdoc.review.domain.Review">
+        SELECT
+            *
+        FROM review
+        WHERE
+            review_unique_id = #{reviewUniqueId}
+    </select>
+
+    <update id="update" parameterType="flab.docdoc.review.domain.Review" useGeneratedKeys="true" keyProperty="reviewUniqueId" keyColumn="review_unique_id">
+        UPDATE review
+        SET
+            star = #{star},
+            content= #{content}
+        WHERE
+            review_unique_id = #{reviewUniqueId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE
+        FROM review
+        WHERE
+            review_unique_id = #{reviewUniqueId}
+    </delete>
+
+
+</mapper>

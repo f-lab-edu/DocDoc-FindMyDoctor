@@ -12,6 +12,7 @@
         <result column="y_pos" property="yPos" javaType="String"/>
         <result column="login_id" property="adminLoginId" javaType="String"/>
         <result column="email" property="adminEmail" javaType="String"/>
+
     </resultMap>
 
     <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
@@ -21,14 +22,18 @@
             tel,
             sido_nm,
             sggu_nm,
-            addr)
+            addr,
+            star,
+            review_count)
         VALUES
             (#{uniqueId},
             #{businessName},
             #{tel},
             #{sidoNm},
             #{sgguNm},
-            #{addr})
+            #{addr},
+            #{star},
+            #{reviewCount})
     </insert>
 
     <select id="findByUniqueId" parameterType="java.lang.String" resultType="flab.docdoc.hospital.domain.Hospital">
@@ -41,6 +46,8 @@
             addr,
             x_pos,
             y_pos,
+            star,
+            review_count,
             admin_unique_id
         FROM hospital
         WHERE
@@ -83,6 +90,15 @@
             admin_unique_id = #{memberUniqueId}
         WHERE
             unique_id = #{uniqueId}
+    </update>
+
+    <update id="updateStatistics" parameterType="flab.docdoc.review.domain.HospitalStatistics">
+        UPDATE hospital
+        SET
+            star = star + #{star},
+            review_count = review_count + #{reviewCount}
+        WHERE
+            unique_id = #{hospitalUniqueId}
     </update>
 
 </mapper>
