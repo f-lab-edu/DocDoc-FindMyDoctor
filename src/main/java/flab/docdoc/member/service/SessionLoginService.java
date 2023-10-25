@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService{
 
-    private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
+    public static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
 
     private final HttpSession httpSession;
     private final MemberService memberService;

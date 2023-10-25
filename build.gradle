@@ -27,6 +27,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'

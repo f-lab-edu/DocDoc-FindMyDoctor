@@ -1,5 +1,6 @@
 package flab.docdoc.member.controller;
 
+import flab.docdoc.common.aop.CheckLogin;
 import flab.docdoc.member.request.LoginRequest;
 import flab.docdoc.member.response.MemberResponse;
 import flab.docdoc.member.service.LoginService;
@@ -29,8 +30,9 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
+    @CheckLogin
     public void logout() {
-        loginService.isLogin();
+        //loginService.isLogin();
         loginService.logout();
     }
 
