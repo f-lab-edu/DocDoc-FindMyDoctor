@@ -4,8 +4,7 @@
     <select id="findByUniqueId" parameterType="java.lang.Long" resultType="flab.docdoc.member.domain.Member">
         SELECT
             *
-        FROM
-            member
+        FROM member
         WHERE
             unique_id = #{uniqueId}
     </select>
@@ -41,7 +40,13 @@
             unique_id = #{uniqueId}
     </update>
 
-
+    <update id="updateMemberRole" >
+        UPDATE member
+        SET
+            role = #{role}
+        WHERE
+            unique_id = #{uniqueId}
+    </update>
 
 
 

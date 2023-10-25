@@ -11,12 +11,15 @@ public interface MemberService {
     public Member findByLoginId(String loginId);
     public Member findByUniqueId(Long memberUniqueId);
     public MemberResponse findMemberInfo(String loginId);
+    public Member getMember(Long memberUniqueId);
+
 
     public boolean isExistMember(String loginId);
     public boolean isExistMember(Long memberUniqueId);
 
     public void save(AddMemberRequest request);
     public void updateMemberInfo(UpdateMemberRequest request);
+    public void updateMemberRole(final Long memberUniqueId, final Member.Role role);
 
 
 

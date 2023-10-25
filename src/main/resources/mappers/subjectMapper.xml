@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.docdoc.hospitalSubInfo.repository.SubjectRepository">
+    <select id="countByHospitalUniqueId" parameterType="java.lang.String" resultType="java.lang.Integer" >
+        SELECT
+            COUNT(*)
+        FROM subject
+        WHERE
+            hospital_unique_id = #{hospitalUniqueId}
+    </select>
+    <insert id="saveSubjects" parameterType="java.util.List" >
+        INSERT INTO subject
+            (hospital_unique_id,
+            subject)
+        VALUES
+            <foreach collection="subjects" item="item"  separator=",">
+                (#{item.hospitalUniqueId},
+                #{item.subject})
+            </foreach>
+    </insert>
+
+    <delete id="deleteByHospitalUniqueId" parameterType="java.lang.String">
+        DELETE FROM subject
+        WHERE
+            hospital_unique_id = #{hospitalUniqueId}
+    </delete>
+
+    <select id="findByHospitalUniqueId" parameterType="java.lang.String" resultMap="subjectResultMap">
+        SELECT
+            subject
+        FROM subject
+        WHERE
+            hospital_unique_id = #{hospitalUniqueId}
+    </select>
+
+
+    <resultMap id="subjectResultMap" type="flab.docdoc.hospitalSubInfo.domain.Subject">
+        <result column="subject" property="subject" javaType="flab.docdoc.hospitalSubInfo.domain.Subject" typeHandler="org.apache.ibatis.type.EnumTypeHandler"></result>
+    </resultMap>
+</mapper>

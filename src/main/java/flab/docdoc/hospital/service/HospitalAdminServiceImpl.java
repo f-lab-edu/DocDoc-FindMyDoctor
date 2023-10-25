@@ -1,0 +1,57 @@
+package flab.docdoc.hospital.service;
+
+import flab.docdoc.hospital.domain.Hospital;
+import flab.docdoc.hospital.request.UpdateHospitalAdminRequest;
+import flab.docdoc.member.domain.Member;
+import flab.docdoc.member.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class HospitalAdminServiceImpl implements HospitalAdminService{
+
+    private final HospitalService hospitalService;
+    private final MemberService memberService;
+
+    @Transactional
+    @Override
+    public void addHospitalAdmin(UpdateHospitalAdminRequest request) {
+        Member existMember = memberService.getMember(request.getMemberUniqueId());
+        if (existMember.getRole() == Member.Role.ADMIN) {
+            throw new IllegalArgumentException("해당 회원은 이미 관리자 입니다. 다시 확인해주세요");
+        }
+
+        Hospital existHospital = hospitalService.getHospital(request.getHospitalUniqueId());
+
+        if (existHospital.getAdminUniqueId() != null) {
+            throw new IllegalArgumentException("해당 병원은 이미 관리자가 존재합니다. 다시 확인해주세요.");
+        }
+
+        hospitalService.updateAdmin(request.getHospitalUniqueId(), request.getMemberUniqueId());
+        memberService.updateMemberRole(request.getMemberUniqueId(), Member.Role.ADMIN);
+    }
+
+    @Transactional
+    @Override
+    public void deleteHospitalAdmin(UpdateHospitalAdminRequest request) {
+        Member existMember = memberService.getMember(request.getMemberUniqueId());
+        if (existMember.getRole() == Member.Role.PUBLIC) {
+            throw new IllegalArgumentException("해당 회원은 관리자가 아닙니다. 다시 확인해주세요");
+        }
+
+        Hospital existHospital = hospitalService.getHospital(request.getHospitalUniqueId());
+
+        if (existHospital.getAdminUniqueId() == null) {
+            throw new IllegalArgumentException("해당 병원은 관리자가 존재하지 않습니다. 다시 확인해주세요.");
+        }
+
+        if (!existHospital.getAdminUniqueId().equals(existMember.getUniqueId())) {
+            throw new IllegalArgumentException("해당 병원의 관리자와 회원이 일치하지 않습니다. 다시 확인해주세요.");
+        }
+
+        hospitalService.updateAdmin(request.getHospitalUniqueId(), null);
+        memberService.updateMemberRole(request.getMemberUniqueId(), Member.Role.PUBLIC);
+    }
+}
