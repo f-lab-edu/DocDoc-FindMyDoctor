@@ -1,5 +1,6 @@
 package flab.docdoc.hospitalSubInfo.service;
 
+import flab.docdoc.hospitalSubInfo.domain.SubInfo;
 import flab.docdoc.hospitalSubInfo.domain.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,11 @@ public class HospitalSubInfoService {
 
     public void update(String hospitalUniqueId, Set<Subject> subjects) {
         subjectService.saveSubjects(hospitalUniqueId, subjects);
-//        workdayService.saveWorkdays(hospitalUniqueId,workdays);
-//        holidayService.saveHolidays(hospitalUniqueId, holidays);
-//        tagService.saveTags(hospitalUniqueId, tags);
+    }
+
+    public SubInfo findByHospitalUniqueId(String hospitalUniqueId) {
+        List<Subject> subjects = subjectService.findByHospitalUniqueId(hospitalUniqueId);
+        return SubInfo.of(subjects);
     }
 
 

@@ -41,8 +41,12 @@ public enum Subject {
     private static final Map<String, Subject> codeLableMap =
             Stream.of(values()).collect(Collectors.toMap(Subject::getLable, e -> e));
 
+    public String getOpenLable() {
+        return this.lable;
+    }
+
     @JsonCreator
-    public static Subject ToEnum(String lable) {
+    public static Subject toEnum(String lable) {
         Subject subject = codeLableMap.get(lable);
         if (subject == null) throw new IllegalArgumentException("진료과목이 없습니다.");
         return subject;
