@@ -31,6 +31,15 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public Member getMember(Long memberUniqueId) {
+        Member existMember = findByUniqueId(memberUniqueId);
+        if (existMember == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요.");
+        }
+        return existMember;
+    }
+
+    @Override
     public boolean isExistMember(String longinId) {
         return findByLoginId(longinId) != null;
     }
@@ -63,6 +72,17 @@ public class MemberServiceImpl implements MemberService{
         }
     }
 
+    @Override
+    public void updateMemberRole(final Long memberUniqueId, final Member.Role role) {
+        if (memberUniqueId == null || role == null) {
+            throw new IllegalArgumentException("입력 정보 오류. 회원 정보 또는 권한을 다시 확인해주세요.");
+        }
+
+        int updateResult = memberRepository.updateMemberRole(memberUniqueId, role);
+        if(updateResult != 1) {
+            throw new IllegalArgumentException("회원 정보 수정실패. 다시 시도해주세요.");
+        }
+    }
 
 
 }

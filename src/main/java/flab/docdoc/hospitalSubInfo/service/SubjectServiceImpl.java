@@ -31,5 +31,14 @@ public class SubjectServiceImpl implements SubjectService {
         if (insertCount < 0 || insertCount != subjects.size()) throw new IllegalArgumentException("진료과목 등록 요류. 다시 확인해주세요.");
     }
 
+    @Override
+    public List<Subject> findByHospitalUniqueId(String hospitalUniqueId) {
+        if (hospitalUniqueId == null) {
+            throw new IllegalArgumentException("병원 아이디가 입력되지 않았습니다.");
+        }
+
+        return subjectRepository.findByHospitalUniqueId(hospitalUniqueId);
+    }
+
 
 }

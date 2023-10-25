@@ -40,7 +40,13 @@
             unique_id = #{uniqueId}
     </update>
 
-
+    <update id="updateMemberRole" >
+        UPDATE member
+        SET
+            role = #{role}
+        WHERE
+            unique_id = #{uniqueId}
+    </update>
 
 
 

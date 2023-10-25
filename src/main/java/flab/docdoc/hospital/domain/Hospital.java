@@ -17,7 +17,7 @@ public class Hospital {
     private String xPos; //XPos
     private String yPos; //YPos
 
-    private Long adminId;
+    private Long adminUniqueId;
 
     @Builder(builderClassName = "AddHospitalBuilder", builderMethodName = "AddHospitalBuilder")
     public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos) {
@@ -51,7 +51,7 @@ public class Hospital {
         this.tel = tel;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.adminId = adminId;
+        this.adminUniqueId = adminId;
     }
 
 

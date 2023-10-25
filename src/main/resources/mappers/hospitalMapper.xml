@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="flab.docdoc.hospital.repository.HospitalRepository">
 
+    <resultMap id="hospitalResponseMap" type="flab.docdoc.hospital.response.HospitalResponse">
+        <result column="business_name" property="businessName" javaType="String"/>
+        <result column="tel" property="tel" javaType="String"/>
+        <result column="sido_nm" property="sidoNm" javaType="String"/>
+        <result column="sggu_nm" property="sgguNm" javaType="String"/>
+        <result column="addr" property="addr" javaType="String"/>
+        <result column="x_pos" property="xPos" javaType="String"/>
+        <result column="y_pos" property="yPos" javaType="String"/>
+        <result column="login_id" property="adminLoginId" javaType="String"/>
+        <result column="email" property="adminEmail" javaType="String"/>
+    </resultMap>
+
     <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
         INSERT INTO hospital
             (unique_id,
@@ -26,11 +38,32 @@
             tel,
             sido_nm,
             sggu_nm,
-            addr
+            addr,
+            x_pos,
+            y_pos,
+            admin_unique_id
         FROM hospital
         WHERE
             unique_id = #{uniqueId}
     </select>
+
+    <select id="findHospitalResponseByUniqueId" parameterType="java.lang.String" resultMap="hospitalResponseMap">
+        SELECT
+            h.business_name,
+            h.sido_nm,
+            h.sggu_nm,
+            h.addr,
+            h.tel,
+            h.x_pos,
+            h.y_pos,
+            m.login_id,
+            m.email
+        FROM hospital h LEFT JOIN member m
+            ON h.admin_unique_id = m.unique_id
+        WHERE
+            h.unique_id = #{uniqueId}
+    </select>
+
 
     <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
         UPDATE hospital
@@ -43,4 +76,13 @@
         WHERE
             unique_id = #{uniqueId}
     </update>
+
+    <update id="updateAdmin">
+        UPDATE hospital
+        SET
+            admin_unique_id = #{memberUniqueId}
+        WHERE
+            unique_id = #{uniqueId}
+    </update>
+
 </mapper>

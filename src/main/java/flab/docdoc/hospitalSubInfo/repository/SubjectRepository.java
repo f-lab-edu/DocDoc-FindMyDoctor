@@ -1,6 +1,7 @@
 package flab.docdoc.hospitalSubInfo.repository;
 
 import flab.docdoc.hospitalSubInfo.domain.HospitalSubject;
+import flab.docdoc.hospitalSubInfo.domain.Subject;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +16,6 @@ public interface SubjectRepository {
     public int saveSubjects(List<HospitalSubject> subjects);
 
     public int deleteByHospitalUniqueId(String hospitalUniqueId);
+
+    public List<Subject> findByHospitalUniqueId(String hospitalUniqueId);
 }
