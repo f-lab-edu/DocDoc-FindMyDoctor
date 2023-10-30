@@ -16,6 +16,8 @@ public class Hospital {
     private String tel; //telno
     private String xPos; //XPos
     private String yPos; //YPos
+    private Long star;
+    private Long reviewCount;
 
     private Long adminUniqueId;
 
@@ -34,6 +36,8 @@ public class Hospital {
         this.tel = tel;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.star = 0L;
+        this.reviewCount = 0L;
     }
 
     @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateHospitalBuilder")
