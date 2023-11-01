@@ -1,7 +1,9 @@
 package flab.docdoc.review.service;
 
 
+import flab.docdoc.hospital.domain.Hospital;
 import flab.docdoc.hospital.service.HospitalService;
+import flab.docdoc.member.domain.Member;
 import flab.docdoc.member.service.MemberService;
 import flab.docdoc.review.domain.HospitalStatistics;
 import flab.docdoc.review.domain.Review;
@@ -10,6 +12,9 @@ import flab.docdoc.review.request.ReviewRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +26,10 @@ public class ReviewService {
 
     @Transactional
     public void save(ReviewRequest request) {
-        hospitalService.getHospital(request.getHospitalUniqueId());
-        memberService.getMember(request.getMemberUniqueId());
+        Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
+        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
 
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 있으면 등록되도록 하면 안된다.
         // getHistory(memberUniqueId, hospitalUniqueId)가 존재하면 등록 X
@@ -44,7 +51,8 @@ public class ReviewService {
 
     @Transactional
     public void update(ReviewRequest request) {
-        Review existReview = getReview(request.getReviewUniqueId());
+        Review existReview = findByUniqueId(request.getReviewUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 리뷰 입니다. 다시 확인해주세요");});
         Review newReview = ReviewRequest.toUpdateBuilder(request, existReview);
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 없으면, 삭제한 이력이 있으면 업데이트 수정되면 하면 안된다.
         // getHistory(memberUniqueId, hospitalUniqueId)가 null 이거나 status.equals(DELETE) 라면 업데이트 X
@@ -64,7 +72,8 @@ public class ReviewService {
     @Transactional
     public void delete(final Long reviewUniqueId) {
 
-        Review existReview = getReview(reviewUniqueId);
+        Review existReview = findByUniqueId(reviewUniqueId)
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 리뷰 입니다. 다시 확인해주세요");});
 
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 없으면, 삭제한 이력이 있으면 삭제하면 하면 안된다. Review History로 관리할 예정
 
@@ -82,20 +91,12 @@ public class ReviewService {
     }
 
 
-    private Review findByUniqueId(Long reviewUniqueId) {
-        if (reviewUniqueId == null) {
-            throw new IllegalArgumentException("입력값을 다시 확인해주세요.");
-        }
-        return reviewRepository.findByUniqueId(reviewUniqueId);
+    private Optional<Review> findByUniqueId(Long reviewUniqueId) {
+        Assert.notNull(reviewUniqueId, "reviewUniqueId must not be null");
+        return Optional.ofNullable(reviewRepository.findByUniqueId(reviewUniqueId));
     }
 
-    public Review getReview(Long reviewUniqueId) {
-        Review existReview = findByUniqueId(reviewUniqueId);
-        if(existReview == null) {
-            throw new IllegalArgumentException("존재하지 않는 리뷰 입니다.");
-        }
-        return existReview;
-    }
+
 
 
 }

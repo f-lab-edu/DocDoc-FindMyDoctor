@@ -21,7 +21,8 @@ public class SessionLoginService implements LoginService{
     public MemberResponse login(LoginRequest request) {
         checkValidAuthRequest(request);
 
-        Member existMember = memberService.findByLoginId(request.getLoginId());
+        Member existMember = memberService.findByLoginId(request.getLoginId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");});
 
         if (!existMember.getLoginId().equals(request.getLoginId()) || !existMember.getPassword().equals(request.getPassword())) {
             throw new IllegalArgumentException("아이디 또는 비밀번호를 다시 확인해주세요.");

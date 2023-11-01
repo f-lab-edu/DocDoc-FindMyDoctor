@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface HospitalRepository {
 
-    public Hospital findByUniqueId(String hospitalId);
-    public HospitalResponse findHospitalResponseByUniqueId(String hospitalId);
+    public Hospital findByUniqueId(final String hospitalId);
+    public HospitalResponse findHospitalResponseByUniqueId(final String hospitalId);
 
     public int save(Hospital hospital);
 

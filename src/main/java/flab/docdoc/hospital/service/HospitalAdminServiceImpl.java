@@ -18,12 +18,15 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
     @Transactional
     @Override
     public void addHospitalAdmin(UpdateHospitalAdminRequest request) {
-        Member existMember = memberService.getMember(request.getMemberUniqueId());
+        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
+
         if (existMember.getRole() == Member.Role.ADMIN) {
             throw new IllegalArgumentException("해당 회원은 이미 관리자 입니다. 다시 확인해주세요");
         }
 
-        Hospital existHospital = hospitalService.getHospital(request.getHospitalUniqueId());
+        Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
 
         if (existHospital.getAdminUniqueId() != null) {
             throw new IllegalArgumentException("해당 병원은 이미 관리자가 존재합니다. 다시 확인해주세요.");
@@ -36,12 +39,14 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
     @Transactional
     @Override
     public void deleteHospitalAdmin(UpdateHospitalAdminRequest request) {
-        Member existMember = memberService.getMember(request.getMemberUniqueId());
+        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
         if (existMember.getRole() == Member.Role.PUBLIC) {
             throw new IllegalArgumentException("해당 회원은 관리자가 아닙니다. 다시 확인해주세요");
         }
 
-        Hospital existHospital = hospitalService.getHospital(request.getHospitalUniqueId());
+        Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
 
         if (existHospital.getAdminUniqueId() == null) {
             throw new IllegalArgumentException("해당 병원은 관리자가 존재하지 않습니다. 다시 확인해주세요.");

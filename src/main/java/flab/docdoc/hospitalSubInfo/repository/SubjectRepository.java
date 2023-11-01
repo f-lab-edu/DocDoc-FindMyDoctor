@@ -11,11 +11,11 @@ import java.util.List;
 @Mapper
 public interface SubjectRepository {
 
-    public int countByHospitalUniqueId(String hospitalUniqueId);
+    public int countByHospitalUniqueId(final String hospitalUniqueId);
 
     public int saveSubjects(List<HospitalSubject> subjects);
 
-    public int deleteByHospitalUniqueId(String hospitalUniqueId);
+    public int deleteByHospitalUniqueId(final String hospitalUniqueId);
 
-    public List<Subject> findByHospitalUniqueId(String hospitalUniqueId);
+    public List<Subject> findByHospitalUniqueId(final String hospitalUniqueId);
 }

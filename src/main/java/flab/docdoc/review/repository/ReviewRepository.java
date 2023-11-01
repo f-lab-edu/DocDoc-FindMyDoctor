@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface ReviewRepository {
 
-    public Review findByUniqueId(Long reviewUniqueId);
+    public Review findByUniqueId(final Long reviewUniqueId);
 
     public int save(Review review);
 

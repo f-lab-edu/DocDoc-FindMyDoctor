@@ -8,6 +8,9 @@ import flab.docdoc.member.request.UpdateMemberRequest;
 import flab.docdoc.member.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,55 +19,21 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public Member findByLoginId(String loginId) {
-        if(loginId  == null) {
-            throw new IllegalArgumentException("아이디를 입력해 주세요.");
-        }
-        return memberRepository.findByLoginId(loginId);
+    public Optional<Member> findByLoginId(String loginId) {
+        Assert.notNull(loginId, "loginId must not be null");
+        return Optional.ofNullable(memberRepository.findByLoginId(loginId));
     }
 
     @Override
-    public Member findByUniqueId(Long memberUniqueId) {
-        if(memberUniqueId  == null) {
-            throw new IllegalArgumentException("아이디를 입력해 주세요.");
-        }
-        return memberRepository.findByUniqueId(memberUniqueId);
-    }
-
-    @Override
-
-    public MemberResponse findMemberInfo(String loginId) {
-        Member existMember = findByLoginId(loginId);
-        if (existMember == null) {
-            throw new IllegalArgumentException("존재하지 않는 회원 입니다.");
-        }
-        return MemberResponse.of(existMember);
-    }
-
-    @Override
-    public Member getMember(Long memberUniqueId) {
-        Member existMember = findByUniqueId(memberUniqueId);
-        if (existMember == null) {
-            throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요.");
-        }
-        return existMember;
-    }
-
-    @Override
-    public boolean isExistMember(String longinId) {
-        return findByLoginId(longinId) != null;
-    }
-
-    @Override
-    public boolean isExistMember(Long memberUniqueId) {
-        return findByUniqueId(memberUniqueId) != null;
+    public Optional<Member> findByUniqueId(Long memberUniqueId) {
+        Assert.notNull(memberUniqueId, "memberUniqueId must not be null");
+        return Optional.ofNullable(memberRepository.findByUniqueId(memberUniqueId));
     }
 
     @Override
     public void save(AddMemberRequest request) {
-        if(isExistMember(request.getLoginId())) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
-        }
+        findByLoginId(request.getLoginId()).ifPresent(a -> {throw new IllegalArgumentException("이미 존재하는 회원입니다.");});
+
         Member newMember = AddMemberRequest.of(request);
         if (memberRepository.save(newMember) != 1) {
             throw new IllegalArgumentException("회원가입 오류! 다시 시도해주세요.");
@@ -73,9 +42,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void updateMemberInfo(UpdateMemberRequest request) {
-        if(!isExistMember(request.getUniqueId())) {
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        }
+        findByUniqueId(request.getUniqueId()).orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원입니다.");});
+
         Member updateMember = UpdateMemberRequest.of(request);
         int updateResult =  memberRepository.update(updateMember);
         if (updateResult != 1) {

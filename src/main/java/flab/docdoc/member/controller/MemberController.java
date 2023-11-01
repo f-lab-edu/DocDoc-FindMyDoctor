@@ -44,12 +44,16 @@ public class MemberController {
         loginService.isLogin();
 
         String loginId = loginService.getLoginId();
-        return new ResponseEntity<>(memberService.findMemberInfo(loginId), HttpStatus.OK);
+        MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");}));
+        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{loginId}")
     public ResponseEntity<MemberResponse> getMyInfo(@PathVariable String loginId) {
-        return new ResponseEntity<>(memberService.findMemberInfo(loginId), HttpStatus.OK);
+        MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");}));
+        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
     }
 
 
