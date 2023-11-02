@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface MemberRepository {
 
-    public Member findByLoginId(String loginId);
+    public Member findByLoginId(final String loginId);
 
-    public Member findByUniqueId(Long uniqueId);
+    public Member findByUniqueId(final Long uniqueId);
 
     public int save(Member member);
 

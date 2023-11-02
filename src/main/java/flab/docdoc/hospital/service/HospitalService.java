@@ -6,11 +6,12 @@ import flab.docdoc.hospital.request.UpdateHospitalRequest;
 import flab.docdoc.hospital.response.HospitalResponse;
 import flab.docdoc.review.domain.HospitalStatistics;
 
+import java.util.Optional;
+
 
 public interface HospitalService {
 
-    public Hospital findByUniqueId(String hospitalUniqueId);
-    public Hospital getHospital(String hospitalUniqueId);
+    public Optional<Hospital> findByUniqueId(String hospitalUniqueId);
 
     public void save(AddHospitalRequest request);
 

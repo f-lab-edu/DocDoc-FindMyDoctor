@@ -12,6 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,33 +25,16 @@ public class HospitalServiceImpl implements HospitalService{
     private final HospitalSubInfoService hospitalSubInfoService;
 
     @Override
-    public Hospital findByUniqueId(String hospitalUniqueId) {
-        if (hospitalUniqueId == null) throw new IllegalArgumentException("입력 값을 다시 확인해주세요.");
-        return hospitalRepository.findByUniqueId(hospitalUniqueId);
-    }
-
-    @Override
-    public Hospital getHospital(String hospitalUniqueId) {
-        Hospital existHospital = findByUniqueId(hospitalUniqueId);
-
-        if (existHospital == null) {
-            throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");
-        }
-
-        return existHospital;
-    }
-
-    private boolean isExistHospital(String hospitalUniqueId) {
-        return findByUniqueId(hospitalUniqueId) != null;
+    public Optional<Hospital> findByUniqueId(String hospitalUniqueId) {
+        Assert.notNull(hospitalUniqueId, "hospitalUniqueId must not be null");
+        return Optional.ofNullable(hospitalRepository.findByUniqueId(hospitalUniqueId));
     }
 
     @Override
     @Transactional
     public void save(AddHospitalRequest request) {
-        if (isExistHospital(request.getUniqueId())) {
-            throw new IllegalArgumentException("이미 존재하는 병원 입니다.");
-        }
-//TODO ExistHospitalCheck
+        findByUniqueId(request.getUniqueId()).ifPresent(a -> {throw new IllegalArgumentException("이미 존재하는 병원 입니다.");});
+
         Hospital hospital = AddHospitalRequest.of(request);
         int saveResult = hospitalRepository.save(hospital);
 
@@ -62,10 +48,8 @@ public class HospitalServiceImpl implements HospitalService{
     @Override
     @Transactional
     public void update(UpdateHospitalRequest request) {
-        if (!isExistHospital(request.getUniqueId())) {
-            throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
-        }
-//TODO ExistHospitalCheck
+        findByUniqueId(request.getUniqueId()).orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");});
+
         Hospital hospital = UpdateHospitalRequest.of(request);
 
         int updateResult = hospitalRepository.update(hospital);
