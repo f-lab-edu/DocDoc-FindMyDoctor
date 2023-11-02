@@ -75,9 +75,6 @@ public class ReviewService {
         Review existReview = findByUniqueId(reviewUniqueId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 리뷰 입니다. 다시 확인해주세요");});
 
-        //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 없으면, 삭제한 이력이 있으면 삭제하면 하면 안된다. Review History로 관리할 예정
-
-        //TODO : session 멤버가 수정하려는 멤버와 같은지 확인해야한다.
 
         int deleteResult = reviewRepository.delete(existReview.getReviewUniqueId());
         if (deleteResult != 1) {
