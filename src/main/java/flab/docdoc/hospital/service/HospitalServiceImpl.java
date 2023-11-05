@@ -57,7 +57,7 @@ public class HospitalServiceImpl implements HospitalService{
             throw new IllegalArgumentException("병원 정보 수정 실패. 다시 시도해주세요.");
         }
 
-        hospitalSubInfoService.update(hospital.getUniqueId(), request.getSubjects());
+        hospitalSubInfoService.update(hospital.getUniqueId(), request.getSubjects(), request.getWorkdays(), request.getHolidays(), request.getTags());
     }
 
     @Override
