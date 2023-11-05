@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static flab.docdoc.common.util.SessionUtil.getCurrentMember;
+
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
@@ -31,8 +33,6 @@ public class MemberController {
 
     @PutMapping
     public ResponseEntity<HttpStatus> update(@RequestBody @Valid UpdateMemberRequest request) {
-        //login check
-        loginService.isLogin();
 
         memberService.updateMemberInfo(request);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -40,10 +40,9 @@ public class MemberController {
 
     @GetMapping("/myInfo")
     public ResponseEntity<MemberResponse> getMyInfo() {
-        //login check
-        loginService.isLogin();
 
-        String loginId = loginService.getLoginId();
+        String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
+
         MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");}));
         return new ResponseEntity<>(memberResponse, HttpStatus.OK);
