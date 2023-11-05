@@ -19,7 +19,7 @@ public class Hospital {
     private Long star;
     private Long reviewCount;
 
-    private Long adminUniqueId;
+    private String adminId;
 
     @Builder(builderClassName = "AddHospitalBuilder", builderMethodName = "AddHospitalBuilder")
     public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos) {
@@ -41,7 +41,7 @@ public class Hospital {
     }
 
     @Builder(builderClassName = "UpdateHospitalRequest", builderMethodName = "UpdateHospitalBuilder")
-    public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos, Long adminId) {
+    public Hospital(String uniqueId, String businessName, String sidoNm, String sgguNm , String addr, String tel, String xPos, String yPos, String adminId) {
         Assert.notNull(uniqueId, "uniqueId must not be null");
         Assert.notNull(businessName, "businessName must not be null");
         Assert.notNull(sidoNm, "sidoNm must not be null");
@@ -55,7 +55,7 @@ public class Hospital {
         this.tel = tel;
         this.xPos = xPos;
         this.yPos = yPos;
-        this.adminUniqueId = adminId;
+        this.adminId = adminId;
     }
 
 

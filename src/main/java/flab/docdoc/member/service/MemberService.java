@@ -10,12 +10,12 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    public Optional<Member> findByLoginId(String loginId);
-    public Optional<Member> findByUniqueId(Long memberUniqueId);
+    public Optional<Member> findByLoginId(final String loginId);
+    public Optional<Member> findByUniqueId(final Long memberUniqueId);
 
     public void save(AddMemberRequest request);
-    public void updateMemberInfo(UpdateMemberRequest request);
-    public void updateMemberRole(final Long memberUniqueId, final Member.Role role);
+    public void updateMemberInfo(UpdateMemberRequest request, final String loginId);
+    public void updateMemberRole(final String loginId, final Member.Role role);
 
 
 

@@ -34,13 +34,14 @@ public class MemberController {
     @PutMapping
     public ResponseEntity<HttpStatus> update(@RequestBody @Valid UpdateMemberRequest request) {
 
-        memberService.updateMemberInfo(request);
+        String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
+
+        memberService.updateMemberInfo(request, loginId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/myInfo")
     public ResponseEntity<MemberResponse> getMyInfo() {
-
         String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
 
         MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
@@ -49,7 +50,7 @@ public class MemberController {
     }
 
     @GetMapping("/{loginId}")
-    public ResponseEntity<MemberResponse> getMyInfo(@PathVariable String loginId) {
+    public ResponseEntity<MemberResponse> getMemberInfo(@PathVariable String loginId) {
         MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");}));
         return new ResponseEntity<>(memberResponse, HttpStatus.OK);

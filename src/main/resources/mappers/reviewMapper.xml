@@ -5,13 +5,13 @@
     <insert id="save" parameterType="flab.docdoc.review.domain.Review" useGeneratedKeys="true" keyProperty="reviewUniqueId" keyColumn="review_unique_id">
         INSERT INTO review
             (hospital_unique_id,
-            member_unique_id,
+            writer,
             star,
             content,
             visit_date)
         VALUES
             (#{hospitalUniqueId},
-            #{memberUniqueId},
+            #{writer},
             #{star},
             #{content},
             #{visitDate})

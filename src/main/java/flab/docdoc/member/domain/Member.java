@@ -27,7 +27,7 @@ public class Member {
 
 
 
-    @Builder(builderClassName = "AddMemberBuilder", builderMethodName = "AddMemberBuilder")
+    @Builder
     public Member(String loginId, String password, String email) {
         Assert.notNull(loginId, "loginId must not be null");
         Assert.notNull(password, "password must not be null");
@@ -36,13 +36,5 @@ public class Member {
         this.email = email;
     }
 
-    @Builder(builderClassName = "UpdateMemberBuilder", builderMethodName = "UpdateMemberBuilder")
-    public Member(Long uniqueId,  String password, String email) {
-        Assert.notNull(uniqueId, "uniqueId must not be null");
-        Assert.notNull(password, "password must not be null");
-        this.uniqueId = uniqueId;
-        this.password = password;
-        this.email = email;
-    }
 
 }

@@ -1,6 +1,5 @@
 package flab.docdoc.common.aop;
 
-import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,7 +10,6 @@ import static flab.docdoc.common.util.SessionUtil.getCurrentMember;
 
 @Aspect
 @Component
-@RequiredArgsConstructor
 public class AuthAspect {
 
     @Before("@annotation(flab.docdoc.common.aop.CheckLogin)")

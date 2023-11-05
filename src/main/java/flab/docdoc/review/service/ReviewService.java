@@ -25,16 +25,16 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public void save(ReviewRequest request) {
+    public void save(ReviewRequest request, final String loginId) {
         Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
-        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
+        Member existMember = memberService.findByLoginId(loginId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
 
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 있으면 등록되도록 하면 안된다.
         // getHistory(memberUniqueId, hospitalUniqueId)가 존재하면 등록 X
 
-        Review newReview = ReviewRequest.toNewReview(request);
+        Review newReview = ReviewRequest.toNewReview(request, existMember.getLoginId());
 
         int saveResult = reviewRepository.save(newReview);
         if (saveResult != 1) {
@@ -50,14 +50,21 @@ public class ReviewService {
     }
 
     @Transactional
-    public void update(ReviewRequest request) {
+    public void update(ReviewRequest request, final String loginId) {
         Review existReview = findByUniqueId(request.getReviewUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 리뷰 입니다. 다시 확인해주세요");});
-        Review newReview = ReviewRequest.toUpdateBuilder(request, existReview);
+
+        Member existMember = memberService.findByLoginId(loginId)
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
+
+        if (!existReview.getWriter().equals(existMember.getLoginId())) {
+            throw new IllegalArgumentException("로그인 한 회원이 쓴 리뷰가 아닙니다.");
+        }
+
+        Review newReview = ReviewRequest.toUpdateBuilder(request, existReview, existMember.getLoginId());
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 없으면, 삭제한 이력이 있으면 업데이트 수정되면 하면 안된다.
         // getHistory(memberUniqueId, hospitalUniqueId)가 null 이거나 status.equals(DELETE) 라면 업데이트 X
 
-        //TODO : session 멤버가 수정하려는 멤버와 같은지 확인해야한다.
         int updateResult = reviewRepository.update(newReview);
         if (updateResult != 1) {
             throw new IllegalArgumentException("리뷰 업데이트 실패! 다시 확인해주세요.");
@@ -70,14 +77,19 @@ public class ReviewService {
     }
 
     @Transactional
-    public void delete(final Long reviewUniqueId) {
+    public void delete(final Long reviewUniqueId, final String loginId) {
 
         Review existReview = findByUniqueId(reviewUniqueId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 리뷰 입니다. 다시 확인해주세요");});
 
+        Member existMember = memberService.findByLoginId(loginId)
+                .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
+
+        if (!existReview.getWriter().equals(existMember.getLoginId())) {
+            throw new IllegalArgumentException("로그인 한 회원이 쓴 리뷰가 아닙니다.");
+        }
         //TODO : A 회원이 B 병원에 리뷰를 등록한 적이 없으면, 삭제한 이력이 있으면 삭제하면 하면 안된다. Review History로 관리할 예정
 
-        //TODO : session 멤버가 수정하려는 멤버와 같은지 확인해야한다.
 
         int deleteResult = reviewRepository.delete(existReview.getReviewUniqueId());
         if (deleteResult != 1) {
