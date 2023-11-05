@@ -34,6 +34,12 @@ public class UpdateHospitalRequest {
     @NotEmpty
     private Set<Subject> subjects;
 
+    private List<Workday> workdays;
+
+    private Set<Holiday> holidays;
+
+    private Set<Tag> tags;
+
     public static Hospital of(UpdateHospitalRequest request) {
         return Hospital.UpdateHospitalBuilder()
                 .uniqueId(request.getUniqueId())
