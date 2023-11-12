@@ -4,6 +4,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+log.config.path_IS_UNDEFINED/
 
 ### IntelliJ IDEA ###
 .idea
