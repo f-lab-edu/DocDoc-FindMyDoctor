@@ -2,19 +2,6 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="flab.docdoc.hospital.repository.HospitalRepository">
 
-    <resultMap id="hospitalResponseMap" type="flab.docdoc.hospital.response.HospitalResponse">
-        <result column="business_name" property="businessName" javaType="String"/>
-        <result column="tel" property="tel" javaType="String"/>
-        <result column="sido_nm" property="sidoNm" javaType="String"/>
-        <result column="sggu_nm" property="sgguNm" javaType="String"/>
-        <result column="addr" property="addr" javaType="String"/>
-        <result column="x_pos" property="xPos" javaType="String"/>
-        <result column="y_pos" property="yPos" javaType="String"/>
-        <result column="login_id" property="adminLoginId" javaType="String"/>
-        <result column="email" property="adminEmail" javaType="String"/>
-
-    </resultMap>
-
     <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
         INSERT INTO hospital
             (unique_id,
@@ -48,29 +35,11 @@
             y_pos,
             star,
             review_count,
-            admin_unique_id
+            admin_id
         FROM hospital
         WHERE
             unique_id = #{uniqueId}
     </select>
-
-    <select id="findHospitalResponseByUniqueId" parameterType="java.lang.String" resultMap="hospitalResponseMap">
-        SELECT
-            h.business_name,
-            h.sido_nm,
-            h.sggu_nm,
-            h.addr,
-            h.tel,
-            h.x_pos,
-            h.y_pos,
-            m.login_id,
-            m.email
-        FROM hospital h LEFT JOIN member m
-            ON h.admin_unique_id = m.unique_id
-        WHERE
-            h.unique_id = #{uniqueId}
-    </select>
-
 
     <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
         UPDATE hospital
@@ -100,5 +69,90 @@
         WHERE
             unique_id = #{hospitalUniqueId}
     </update>
+
+    <resultMap id="hospitalResponseMap" type="flab.docdoc.hospital.response.HospitalDetailResponse">
+        <id column="unique_id" property="uniqueId" javaType="String"/>
+        <result column="business_name" property="businessName" javaType="String"/>
+        <result column="tel" property="tel" javaType="String"/>
+        <result column="sido_nm" property="sidoNm" javaType="String"/>
+        <result column="sggu_nm" property="sgguNm" javaType="String"/>
+        <result column="addr" property="addr" javaType="String"/>
+        <result column="x_pos" property="xPos" javaType="String"/>
+        <result column="y_pos" property="yPos" javaType="String"/>
+        <result column="login_id" property="adminLoginId" javaType="String"/>
+        <result column="email" property="adminEmail" javaType="String"/>
+        <result column="hospital_statistics" property="hospitalStatistics" javaType="Float"/>
+        <!--            <collection column="uniqueId = unique_id" property="subjects"  javaType="List" ofType="flab.docdoc.hospitalSubInfo.domain.Subject" select="getSubjects"/>-->
+        <collection column="uniqueId = unique_id" property="subjects"  javaType="List" select="getSubjects" ofType="java.lang.String"  typeHandler="flab.docdoc.hospitalSubInfo.domain.Subject$TypeHandler"/>
+        <collection column="uniqueId = unique_id" property="holidays"  javaType="List" ofType="java.lang.String" select="getHolidays"/>
+        <collection column="uniqueId = unique_id" property="workdays"  javaType="List" ofType="flab.docdoc.hospitalSubInfo.domain.Workday" select="getWorkdays"/>
+        <collection column="uniqueId = unique_id" property="tags"  javaType="List" ofType="java.lang.String" select="getTags"/>
+    </resultMap>
+
+    <select id="getHospital" parameterType="java.lang.String" resultMap="hospitalResponseMap">
+        SELECT
+            h.unique_id,
+            h.business_name,
+            h.sido_nm,
+            h.sggu_nm,
+            h.addr,
+            h.tel,
+            h.x_pos,
+            h.y_pos,
+            m.login_id,
+            m.email,
+            (h.star / h.review_count) AS hospital_statistics
+        FROM hospital h
+        LEFT JOIN member m ON h.admin_id = m.login_id
+        <!--        JOIN subject s ON h.unique_id = s.hospital_unique_id-->
+            where h.unique_id = #{uniqueId}
+    </select>
+
+    <resultMap id="subjectResultMap" type="java.lang.String">
+        <result column="subject" property="subject" javaType="java.lang.String" typeHandler="flab.docdoc.hospitalSubInfo.domain.Subject$TypeHandler"/>
+    </resultMap>
+
+
+    <select id="getSubjects" resultType="java.lang.String">
+        SELECT
+            subject
+        FROM subject
+        WHERE
+            hospital_unique_id = #{uniqueId}
+    </select>
+
+    <select id="getHolidays" resultType="java.lang.String">
+        SELECT
+            holiday
+        FROM holiday
+        WHERE
+            hospital_unique_id = #{uniqueId}
+        AND holiday LIKE CONCAT('%', DATE_FORMAT(NOW(), "%Y"), '%');
+    </select>
+
+    <resultMap id="workdayResultMap" type="java.util.HashMap">
+        <result column="weekday" property="weekday"/>
+        <result column="st_time" property="stTime" />
+        <result column="ed_time" property="edTime"/>
+    </resultMap>
+
+    <select id="getWorkdays" resultMap="workdayResultMap">
+        SELECT
+            weekday,
+            st_time,
+            ed_time
+        FROM workday
+        WHERE
+            hospital_unique_id = #{uniqueId}
+    </select>
+
+    <select id="getTags" resultType="java.lang.String">
+        SELECT
+            tag
+        FROM tag
+        WHERE
+            hospital_unique_id = #{uniqueId}
+    </select>
+
 
 </mapper>

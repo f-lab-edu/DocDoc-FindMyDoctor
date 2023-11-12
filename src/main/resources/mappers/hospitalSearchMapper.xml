@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="flab.docdoc.hospital.repository.HospitalSearchRepository">
+
+
+
+
+
+    <select id="getHospitalList"  resultType="flab.docdoc.hospital.response.HospitalResponse">
+        SELECT
+            DISTINCT h.unique_id,
+            h.business_name,
+            h.sido_nm,
+            h.sggu_nm,
+            h.addr,
+            h.tel,
+            h.x_pos,
+            h.y_pos,
+            (h.star / h.review_count) AS hospital_statistics,
+            h.review_count,
+            IF(is_holiday.unique_id IS NOT NULL, TRUE, NULL) AS is_holiday,
+            IF(is_workday.unique_id IS NOT NULL, TRUE, NULL) AS is_workday
+        FROM hospital h
+        JOIN subject s ON h.unique_id = s.hospital_unique_id
+        LEFT JOIN holiday ho ON h.unique_id = ho.hospital_unique_id
+        LEFT JOIN tag t ON h.unique_id = t.hospital_unique_id
+        <if test="visitDate != null and visitDate != ''">
+        LEFT JOIN
+            (SELECT h.unique_id
+                FROM hospital h
+                LEFT JOIN holiday ho ON h.unique_id = ho.hospital_unique_id
+                WHERE ho.holiday = #{visitDate}) AS is_holiday
+            ON h.unique_id = is_holiday.unique_id
+        </if>
+        <if test="dayOfWeek != null and dayOfWeek != ''">
+        LEFT JOIN
+            (SELECT h.unique_id
+            FROM hospital h
+            LEFT JOIN workday w ON h.unique_id = w.hospital_unique_id
+            WHERE w.weekday = #{dayOfWeek}) is_workday
+        ON h.unique_id = is_workday.unique_id
+        </if>
+        <where>
+            <if test="subject != null and subject != ''">
+                <choose>
+                    <when test="subject = 'ALL'">
+
+                    </when>
+                    <otherwise>
+                        AND s.subject = #{subject}
+                    </otherwise>
+                </choose>
+            </if>
+
+            <if test="tags != null and tags.size > 0">
+                t.tag IN
+                <foreach collection="tags" item = "tag" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sort == 'manyReview'"> ORDER BY h.review_count DESC</when>
+            <when test="sort == 'highStatistics'"> ORDER BY hospital_statistics DESC</when>
+            <otherwise>ORDER BY h.business_name</otherwise>
+        </choose>
+    </select>
+
+</mapper>

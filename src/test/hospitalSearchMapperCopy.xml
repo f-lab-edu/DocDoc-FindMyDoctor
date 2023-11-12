@@ -1,0 +1,72 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >-->
+<!--<mapper namespace="flab.docdoc.hospital.repository.HospitalSearchRepository2">-->
+
+<!--        <resultMap id="hospitalResponseMap" type="flab.docdoc.hospital.response.HospitalDetailResponse">-->
+<!--            <id column="unique_id" property="uniqueId" javaType="String"/>-->
+<!--            <result column="business_name" property="businessName" javaType="String"/>-->
+<!--            <result column="tel" property="tel" javaType="String"/>-->
+<!--            <result column="sido_nm" property="sidoNm" javaType="String"/>-->
+<!--            <result column="sggu_nm" property="sgguNm" javaType="String"/>-->
+<!--            <result column="addr" property="addr" javaType="String"/>-->
+<!--            <result column="x_pos" property="xPos" javaType="String"/>-->
+<!--            <result column="y_pos" property="yPos" javaType="String"/>-->
+<!--            <result column="login_id" property="adminLoginId" javaType="String"/>-->
+<!--            <result column="email" property="adminEmail" javaType="String"/>-->
+<!--            <result column="hospital_statistics" property="hospitalStatistics" javaType="Float"/>-->
+<!--&lt;!&ndash;            <collection column="uniqueId = unique_id" property="subjects"  javaType="List" ofType="flab.docdoc.hospitalSubInfo.domain.Subject" select="getSubjects"/>&ndash;&gt;-->
+<!--            <collection column="uniqueId = unique_id" property="subjects"  javaType="List" ofType="flab.docdoc.hospitalSubInfo.domain.Subject" select="getSubjects"/>-->
+<!--        </resultMap>-->
+
+<!--    <resultMap id="subjectResultMap" type="flab.docdoc.hospitalSubInfo.domain.Subject">-->
+<!--        <result column="subject" property="subject" javaType="flab.docdoc.hospitalSubInfo.domain.Subject" typeHandler="org.apache.ibatis.type.EnumTypeHandler"></result>-->
+<!--    </resultMap>-->
+
+<!--    <select id="getSubjects" resultType="flab.docdoc.hospitalSubInfo.domain.Subject">-->
+<!--        SELECT-->
+<!--            subject-->
+<!--        FROM subject-->
+<!--        WHERE-->
+<!--            hospital_unique_id = #{uniqueId}-->
+<!--    </select>-->
+
+<!--    <select id="getHospital" parameterType="java.lang.String" resultMap="hospitalResponseMap">-->
+<!--        SELECT-->
+<!--            h.unique_id,-->
+<!--            h.business_name,-->
+<!--            h.sido_nm,-->
+<!--            h.sggu_nm,-->
+<!--            h.addr,-->
+<!--            h.tel,-->
+<!--            h.x_pos,-->
+<!--            h.y_pos,-->
+<!--            m.login_id,-->
+<!--            m.email,-->
+<!--            (h.star / h.review_count) AS hospital_statistics-->
+<!--        FROM hospital h-->
+<!--        LEFT JOIN member m ON h.admin_unique_id = m.unique_id-->
+<!--&lt;!&ndash;        JOIN subject s ON h.unique_id = s.hospital_unique_id&ndash;&gt;-->
+<!--            where h.unique_id = #{uniqueId}-->
+<!--    </select>-->
+
+<!--    <select id="getHospitalList"  resultType="flab.docdoc.hospital.response.HospitalDetailResponse">-->
+<!--        SELECT-->
+<!--            h.unique_id,-->
+<!--            h.business_name,-->
+<!--            h.sido_nm,-->
+<!--            h.sggu_nm,-->
+<!--            h.addr,-->
+<!--            h.tel,-->
+<!--            h.x_pos,-->
+<!--            h.y_pos,-->
+<!--            m.login_id,-->
+<!--            m.email,-->
+<!--            (h.star / h.review_count) AS hospital_statistics-->
+<!--        FROM hospital h-->
+<!--        LEFT JOIN member m ON h.admin_unique_id = m.unique_id-->
+<!--        JOIN subject s ON h.unique_id = s.hospital_unique_id-->
+<!--            <if test="subject != null and subject != ''">-->
+<!--                WHERE s.subject = #{subject}-->
+<!--            </if>-->
+<!--    </select>-->
+<!--</mapper>-->

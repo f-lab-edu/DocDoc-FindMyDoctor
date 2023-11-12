@@ -3,7 +3,7 @@ package flab.docdoc.hospital.service;
 import flab.docdoc.hospital.domain.Hospital;
 import flab.docdoc.hospital.request.AddHospitalRequest;
 import flab.docdoc.hospital.request.UpdateHospitalRequest;
-import flab.docdoc.hospital.response.HospitalResponse;
+import flab.docdoc.hospital.response.HospitalDetailResponse;
 import flab.docdoc.review.domain.HospitalStatistics;
 
 import java.util.Optional;
@@ -19,6 +19,5 @@ public interface HospitalService {
     public void updateAdmin(final String hospitalUniqueId, final Long memberUniqueId);
     public void updateStatistics(HospitalStatistics statistics);
 
-    public HospitalResponse getHospitalResponse(String hospitalUniqueId);
-
+    HospitalDetailResponse getHospital(final String hospitalUniqueId);
 }
