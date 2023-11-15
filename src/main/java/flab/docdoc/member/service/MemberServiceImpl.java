@@ -5,7 +5,6 @@ import flab.docdoc.member.domain.Member;
 import flab.docdoc.member.repository.MemberRepository;
 import flab.docdoc.member.request.AddMemberRequest;
 import flab.docdoc.member.request.UpdateMemberRequest;
-import flab.docdoc.member.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -25,12 +24,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Optional<Member> findByUniqueId(final Long memberUniqueId) {
-        Assert.notNull(memberUniqueId, "memberUniqueId must not be null");
-        return Optional.ofNullable(memberRepository.findByUniqueId(memberUniqueId));
-    }
-
-    @Override
     public void save(AddMemberRequest request) {
         findByLoginId(request.getLoginId()).ifPresent(a -> {throw new IllegalArgumentException("이미 존재하는 회원입니다.");});
 
@@ -41,7 +34,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void updateMemberInfo(UpdateMemberRequest request, final String loginId) {
+    public void update(UpdateMemberRequest request, final String loginId) {
         findByLoginId(loginId).orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원입니다.");});
 
         Member updateMember = UpdateMemberRequest.of(request, loginId);
@@ -52,12 +45,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public void updateMemberRole(final String loginId, final Member.Role role) {
+    public void updateRole(final String loginId, final Member.Role role) {
         if (loginId == null || role == null) {
             throw new IllegalArgumentException("입력 정보 오류. 회원 정보 또는 권한을 다시 확인해주세요.");
         }
 
-        int updateResult = memberRepository.updateMemberRole(loginId, role);
+        int updateResult = memberRepository.updateRole(loginId, role);
         if(updateResult != 1) {
             throw new IllegalArgumentException("회원 정보 수정실패. 다시 시도해주세요.");
         }

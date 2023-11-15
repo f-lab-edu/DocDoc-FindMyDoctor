@@ -9,7 +9,6 @@ import flab.docdoc.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class MemberController {
 
         String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
 
-        memberService.updateMemberInfo(request, loginId);
+        memberService.update(request, loginId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -50,7 +49,7 @@ public class MemberController {
     }
 
     @GetMapping("/{loginId}")
-    public ResponseEntity<MemberResponse> getMemberInfo(@PathVariable String loginId) {
+    public ResponseEntity<MemberResponse> getInfo(@PathVariable String loginId) {
         MemberResponse memberResponse = MemberResponse.of(memberService.findByLoginId(loginId)
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다.");}));
         return new ResponseEntity<>(memberResponse, HttpStatus.OK);

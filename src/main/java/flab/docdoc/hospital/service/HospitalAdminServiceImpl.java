@@ -33,7 +33,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
         }
 
         hospitalService.updateAdmin(request.getHospitalUniqueId(), loginId);
-        memberService.updateMemberRole(loginId, Member.Role.ADMIN);
+        memberService.updateRole(loginId, Member.Role.ADMIN);
     }
 
     @Transactional
@@ -58,7 +58,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
         }
 
         hospitalService.updateAdmin(request.getHospitalUniqueId(), null);
-        memberService.updateMemberRole(loginId, Member.Role.PUBLIC);
+        memberService.updateRole(loginId, Member.Role.PUBLIC);
     }
 
 
