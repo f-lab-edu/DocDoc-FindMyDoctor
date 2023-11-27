@@ -48,4 +48,4 @@ jobs:
           run: scp -P ${{secrets.WAS_PORT}} *.jar ${{secrets.WAS_USER}}@${{secrets.WAS_IP}}:~/cicd/
         - name: Execute remote commands
           run: |
-            ssh ${{ secrets.WAS_USER }}@${{ secrets.WAS_IP }} -p ${{ secrets.WAS_PORT }} "sudo ./start.sh"
+            ssh ${{ secrets.WAS_USER }}@${{ secrets.WAS_IP }} -p ${{ secrets.WAS_PORT }} "nohup sudo ./start.sh > & > /dev/null"
