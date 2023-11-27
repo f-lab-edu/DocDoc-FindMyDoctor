@@ -36,16 +36,16 @@ jobs:
       with:
         name: DocDoc-FindMyDoctor
         path: build/libs/*.jar
-  # deploy:
-  #     needs: build
-  #     runs-on: self-hosted
-  #     steps:
-  #       - name: Download artifact
-  #         uses: actions/download-artifact@v2
-  #         with:
-  #           name: cicdPractice
-  #       - name: SCP transfer
-  #         run: scp -P ${{secrets.WAS_PORT}} *.jar ${{secrets.WAS_USER}}@${{secrets.WAS_IP}}:~/cicd/
-  #       - name: Execute remote commands
-  #         run: |
-  #           ssh ${{ secrets.WAS_USER }}@${{ secrets.WAS_IP }} -p ${{ secrets.WAS_PORT }} "sudo ./start.sh"
+  deploy:
+      needs: build
+      runs-on: self-hosted
+      steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v2
+          with:
+            name: cicdPractice
+        - name: SCP transfer
+          run: scp -P ${{secrets.WAS_PORT}} *.jar ${{secrets.WAS_USER}}@${{secrets.WAS_IP}}:~/cicd/
+        - name: Execute remote commands
+          run: |
+            ssh ${{ secrets.WAS_USER }}@${{ secrets.WAS_IP }} -p ${{ secrets.WAS_PORT }} "sudo ./start.sh"
