@@ -43,7 +43,7 @@ jobs:
         - name: Download artifact
           uses: actions/download-artifact@v2
           with:
-            name: cicdPractice
+            name: DocDoc-FindMyDoctor
         - name: SCP transfer
           run: scp -P ${{secrets.WAS_PORT}} *.jar ${{secrets.WAS_USER}}@${{secrets.WAS_IP}}:~/cicd/
         - name: Execute remote commands
