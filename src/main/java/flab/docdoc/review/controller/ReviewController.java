@@ -1,43 +1,47 @@
 package flab.docdoc.review.controller;
 
-import flab.docdoc.review.request.ReviewRequest;
-import flab.docdoc.review.service.ReviewService;
+import flab.docdoc.common.aop.CheckLogin.CheckLogin;
+import flab.docdoc.common.aop.CheckWriter.CheckWriter;
+import flab.docdoc.review.request.AddReviewRequest;
+import flab.docdoc.review.request.DeleteReviewRequest;
+import flab.docdoc.review.request.UpdateReviewRequest;
+import flab.docdoc.review.service.ReviewFacade;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static flab.docdoc.common.util.SessionUtil.getCurrentMember;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/review")
 public class ReviewController {
 
-    private final ReviewService reviewService;
+    private final ReviewFacade reviewFacade;
 
+    //TODO @CheckLogin
+    //TODO @CheckWriter
     @PostMapping
-    public ResponseEntity<HttpStatus> save(@RequestBody  ReviewRequest request) {
-
-        String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
-
-        reviewService.save(request, loginId);
+    public ResponseEntity<HttpStatus> save(@RequestBody @Valid AddReviewRequest request) {
+        reviewFacade.save(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CheckLogin
+    @CheckWriter
     @PutMapping
-    public ResponseEntity<HttpStatus> update(@RequestBody ReviewRequest request) {
-        String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
-
-        reviewService.update(request, loginId);
+    public ResponseEntity<HttpStatus> update(@RequestBody @Valid UpdateReviewRequest request) {
+        reviewFacade.update(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{reviewUniqueId}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable final Long reviewUniqueId) {
-        String loginId = (String) getCurrentMember().orElseThrow(() -> {throw new IllegalArgumentException("로그인 상태가 아닙니다.");});
-
-        reviewService.delete(reviewUniqueId, loginId);
+    //TODO @CheckLogin
+    //TODO @CheckWriter
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> delete(@RequestBody @Valid DeleteReviewRequest request) {
+        reviewFacade.delete(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
