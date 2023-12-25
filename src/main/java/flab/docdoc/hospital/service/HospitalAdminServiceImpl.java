@@ -17,8 +17,8 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
 
     @Transactional
     @Override
-    public void addHospitalAdmin(UpdateHospitalAdminRequest request, final String loginId) {
-        Member existMember = memberService.findByLoginId(loginId)
+    public void addHospitalAdmin(UpdateHospitalAdminRequest request) {
+        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
 
         if (existMember.getRole() == Member.Role.ADMIN) {
@@ -28,20 +28,19 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
         Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
 
-        if (existHospital.getAdminId() != null) {
+        if (existHospital.getAdminUniqueId() != null) {
             throw new IllegalArgumentException("해당 병원은 이미 관리자가 존재합니다. 다시 확인해주세요.");
         }
 
-        hospitalService.updateAdmin(request.getHospitalUniqueId(), loginId);
-        memberService.updateMemberRole(loginId, Member.Role.ADMIN);
+        hospitalService.updateAdmin(request.getHospitalUniqueId(), request.getMemberUniqueId());
+        memberService.updateMemberRole(request.getMemberUniqueId(), Member.Role.ADMIN);
     }
 
     @Transactional
     @Override
-    public void deleteHospitalAdmin(UpdateHospitalAdminRequest request, final String loginId) {
-        Member existMember = memberService.findByLoginId(loginId)
+    public void deleteHospitalAdmin(UpdateHospitalAdminRequest request) {
+        Member existMember = memberService.findByUniqueId(request.getMemberUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 회원 입니다. 다시 확인해주세요");});
-
         if (existMember.getRole() == Member.Role.PUBLIC) {
             throw new IllegalArgumentException("해당 회원은 관리자가 아닙니다. 다시 확인해주세요");
         }
@@ -49,17 +48,15 @@ public class HospitalAdminServiceImpl implements HospitalAdminService{
         Hospital existHospital = hospitalService.findByUniqueId(request.getHospitalUniqueId())
                 .orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요");});
 
-        if (existHospital.getAdminId() == null) {
+        if (existHospital.getAdminUniqueId() == null) {
             throw new IllegalArgumentException("해당 병원은 관리자가 존재하지 않습니다. 다시 확인해주세요.");
         }
 
-        if (!existHospital.getAdminId().equals(existMember.getLoginId())) {
+        if (!existHospital.getAdminUniqueId().equals(existMember.getUniqueId())) {
             throw new IllegalArgumentException("해당 병원의 관리자와 회원이 일치하지 않습니다. 다시 확인해주세요.");
         }
 
         hospitalService.updateAdmin(request.getHospitalUniqueId(), null);
-        memberService.updateMemberRole(loginId, Member.Role.PUBLIC);
+        memberService.updateMemberRole(request.getMemberUniqueId(), Member.Role.PUBLIC);
     }
-
-
 }

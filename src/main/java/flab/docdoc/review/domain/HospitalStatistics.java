@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HospitalStatistics {
 
+
     private String hospitalUniqueId;
     private Long star;
     private Long reviewCount;
@@ -47,7 +48,9 @@ public class HospitalStatistics {
     public static HospitalStatistics toUpdate(Review existReview, Review newReview) {
         //existReview와 newReview의 순서 바뀜 방지용
         Assert.isNull(newReview.getHospitalUniqueId(), "hospitalUniqueId must be null.");
+        Assert.isNull(newReview.getMemberUniqueId(), "memberUniqueId must be null.");
         Assert.isNull(newReview.getVisitDate(), "visitDate must be null.");
+
 
         Assert.notNull(existReview.getReviewUniqueId(), "reviewUniqueId must not be null");
         Assert.notNull(existReview.getStar(), "existStar must not be null");

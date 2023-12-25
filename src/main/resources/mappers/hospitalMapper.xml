@@ -10,8 +10,9 @@
         <result column="addr" property="addr" javaType="String"/>
         <result column="x_pos" property="xPos" javaType="String"/>
         <result column="y_pos" property="yPos" javaType="String"/>
-        <result column="login_id" property="adminId" javaType="String"/>
+        <result column="login_id" property="adminLoginId" javaType="String"/>
         <result column="email" property="adminEmail" javaType="String"/>
+
     </resultMap>
 
     <insert id="save" parameterType="flab.docdoc.hospital.domain.Hospital" useGeneratedKeys="true" keyProperty="uniqueId" keyColumn="unique_id">
@@ -47,7 +48,7 @@
             y_pos,
             star,
             review_count,
-            admin_id
+            admin_unique_id
         FROM hospital
         WHERE
             unique_id = #{uniqueId}
@@ -65,10 +66,11 @@
             m.login_id,
             m.email
         FROM hospital h LEFT JOIN member m
-            ON h.admin_id = m.login_id
+            ON h.admin_unique_id = m.unique_id
         WHERE
             h.unique_id = #{uniqueId}
     </select>
+
 
     <update id="update" parameterType="flab.docdoc.hospital.domain.Hospital">
         UPDATE hospital
@@ -85,7 +87,7 @@
     <update id="updateAdmin">
         UPDATE hospital
         SET
-            admin_id = #{loginId}
+            admin_unique_id = #{memberUniqueId}
         WHERE
             unique_id = #{uniqueId}
     </update>

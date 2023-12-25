@@ -16,5 +16,5 @@ public interface MemberRepository {
     public int save(Member member);
 
     public int update(Member member);
-    public int updateMemberRole(@Param("loginId") final String loginId, @Param("role") final Member.Role role);
+    public int updateMemberRole(@Param("uniqueId") final Long memberUniqueId, @Param("role") final Member.Role role);
 }

@@ -15,8 +15,8 @@ public interface HospitalService {
 
     public void save(AddHospitalRequest request);
 
-    public void update(UpdateHospitalRequest request, final String loginId);
-    public void updateAdmin(final String hospitalUniqueId, final String loginId);
+    public void update(UpdateHospitalRequest request);
+    public void updateAdmin(final String hospitalUniqueId, final Long memberUniqueId);
     public void updateStatistics(HospitalStatistics statistics);
 
     public HospitalResponse getHospitalResponse(String hospitalUniqueId);

@@ -13,16 +13,16 @@ public class Review {
 
     private Long reviewUniqueId;
     private String hospitalUniqueId;
-    private String writer;
+    private Long memberUniqueId;
     private Long star;
     private String content;
     private Date visitDate;
 
-    @Builder
-    public Review(Long reviewUniqueId, String hospitalUniqueId, String writer, Star star, String content, Date visitDate) {
+    @Builder(builderClassName = "ReviewBuilder", builderMethodName = "ReviewBuilder")
+    public Review(Long reviewUniqueId, String hospitalUniqueId, Long memberUniqueId, Star star, String content, Date visitDate) {
         this.reviewUniqueId = reviewUniqueId;
         this.hospitalUniqueId = hospitalUniqueId;
-        this.writer = writer;
+        this.memberUniqueId = memberUniqueId;
         this.star = star.getValue();
         this.content = content;
         this.visitDate = visitDate;

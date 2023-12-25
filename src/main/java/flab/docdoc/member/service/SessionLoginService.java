@@ -7,13 +7,14 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static flab.docdoc.common.util.SessionUtil.*;
-
 
 @Service
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService{
 
+    public static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
+
+    private final HttpSession httpSession;
     private final MemberService memberService;
 
     @Override
@@ -27,15 +28,28 @@ public class SessionLoginService implements LoginService{
             throw new IllegalArgumentException("아이디 또는 비밀번호를 다시 확인해주세요.");
         }
 
-        setAttribute(getLoginMemberId(), request.getLoginId());
+        httpSession.setAttribute(LOGIN_MEMBER_ID, request.getLoginId());
+
         return MemberResponse.of(existMember);
     }
 
     @Override
     public void logout() {
-        inValidate();
+        httpSession.invalidate();
     }
 
+    @Override
+    public String getLoginId() {
+        return (String) httpSession.getAttribute(LOGIN_MEMBER_ID);
+    }
+
+    @Override
+    public void isLogin() {
+        if (getLoginId() == null ) {
+            throw new IllegalArgumentException("로그인 상태가 아닙니다. 다시 확인해주세요.");
+        }
+
+    }
 
     private void checkValidAuthRequest(LoginRequest request) {
         if (request.getLoginId() == null || request.getPassword() == null) {
