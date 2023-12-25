@@ -3,11 +3,12 @@ package flab.docdoc.member.service;
 import flab.docdoc.member.domain.Member;
 import flab.docdoc.member.request.LoginRequest;
 import flab.docdoc.member.response.MemberResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static flab.docdoc.common.util.SessionUtil.*;
+import static flab.docdoc.common.util.SessionUtil.inValidate;
+import static flab.docdoc.common.util.SessionUtil.setAttribute;
+
 
 
 @Service
@@ -27,7 +28,7 @@ public class SessionLoginService implements LoginService{
             throw new IllegalArgumentException("아이디 또는 비밀번호를 다시 확인해주세요.");
         }
 
-        setAttribute(getLoginMemberId(), request.getLoginId());
+        setAttribute(request.getLoginId());
         return MemberResponse.of(existMember);
     }
 

@@ -12,7 +12,7 @@
         VALUES
         (#{hospitalUniqueId},
         #{writer},
-        #{star, typeHandler = flab.docdoc.review.domain.typeHandler.StarTypeHandler},
+        #{star, typeHandler = flab.docdoc.common.typeHandler.StarTypeHandler},
         #{content},
         #{visitDate})
     </insert>
@@ -33,7 +33,7 @@
     <update id="update" parameterType="flab.docdoc.review.request.UpdateReviewRequest" useGeneratedKeys="true" keyProperty="reviewUniqueId" keyColumn="review_unique_id">
         UPDATE review
         SET
-            star = #{star, typeHandler = flab.docdoc.review.domain.typeHandler.StarTypeHandler},
+            star = #{star, typeHandler = flab.docdoc.common.typeHandler.StarTypeHandler},
             content= #{content}
         WHERE
             review_unique_id = #{reviewUniqueId}
