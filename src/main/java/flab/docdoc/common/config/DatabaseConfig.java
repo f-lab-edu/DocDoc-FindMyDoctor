@@ -2,7 +2,9 @@ package flab.docdoc.common.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import flab.docdoc.review.domain.Star;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -41,6 +43,9 @@ public class DatabaseConfig {
         Resource[] arrResource = new PathMatchingResourcePatternResolver().getResources("classpath:mappers/**/*.xml");;
         sqlSessionFactoryBean.setMapperLocations(arrResource);
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
+        sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[] {
+            new Star.TypeHandler()
+        });
         return (SqlSessionFactory) sqlSessionFactoryBean.getObject();
     }
 
