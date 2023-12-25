@@ -35,13 +35,15 @@ public class AddHospitalRequest {
 
 
     public static Hospital of(AddHospitalRequest request) {
-        return Hospital.AddHospitalBuilder()
+        return Hospital.builder()
                 .uniqueId(request.getUniqueId())
                 .businessName(request.getBusinessName())
                 .tel(request.getTel())
                 .sidoNm(request.getSidoNm())
                 .sgguNm(request.getSgguNm())
                 .addr(request.getAddr())
+                .star(0L)
+                .reviewCount(0L)
                 .build();
     }
 }

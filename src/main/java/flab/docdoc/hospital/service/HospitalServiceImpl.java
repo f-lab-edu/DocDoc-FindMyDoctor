@@ -7,6 +7,7 @@ import flab.docdoc.hospital.request.UpdateHospitalRequest;
 import flab.docdoc.hospital.response.HospitalResponse;
 import flab.docdoc.hospitalSubInfo.domain.SubInfo;
 import flab.docdoc.hospitalSubInfo.service.HospitalSubInfoService;
+import flab.docdoc.hospitalSubInfo.service.HospitalSubInfoServiceImpl;
 import flab.docdoc.review.domain.HospitalStatistics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

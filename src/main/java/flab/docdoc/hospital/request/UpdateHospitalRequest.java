@@ -41,7 +41,7 @@ public class UpdateHospitalRequest {
     private Set<Tag> tags;
 
     public static Hospital of(UpdateHospitalRequest request) {
-        return Hospital.UpdateHospitalBuilder()
+        return Hospital.builder()
                 .uniqueId(request.getUniqueId())
                 .businessName(request.getBusinessName())
                 .tel(request.getTel())
