@@ -10,8 +10,4 @@ public interface LoginService {
 
     public void logout();
 
-    public String getLoginId();
-
-    public void isLogin();
-
 }

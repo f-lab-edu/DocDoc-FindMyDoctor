@@ -9,15 +9,13 @@ import lombok.Getter;
 @Builder
 public class UpdateMemberRequest {
 
-    @NotNull
-    private Long uniqueId;
     private String password;
     private String email;
 
 
-    public static Member of (UpdateMemberRequest request) {
-        return Member.UpdateMemberBuilder()
-                .uniqueId(request.getUniqueId())
+    public static Member of (UpdateMemberRequest request, final String loginId) {
+        return Member.builder()
+                .loginId(loginId)
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .build();

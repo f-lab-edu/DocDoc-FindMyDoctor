@@ -20,7 +20,7 @@ public class AddMemberRequest {
     private String email;
 
     public static Member of (AddMemberRequest request) {
-        return Member.AddMemberBuilder()
+        return Member.builder()
                 .loginId(request.getLoginId())
                 .password(request.getPassword())
                 .email(request.getEmail())
