@@ -1,7 +1,6 @@
 package flab.docdoc.hospital.controller;
 
 
-import flab.docdoc.hospital.domain.Hospital;
 import flab.docdoc.hospital.request.AddHospitalRequest;
 import flab.docdoc.hospital.request.UpdateHospitalRequest;
 import flab.docdoc.hospital.response.HospitalResponse;

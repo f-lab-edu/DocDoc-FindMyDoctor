@@ -6,7 +6,8 @@ import org.springframework.util.Assert;
 
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Hospital {
     private String uniqueId; //ykiho -- pk
     private String businessName; //yadmNm
@@ -18,7 +19,6 @@ public class Hospital {
     private String yPos; //YPos
     private Long star;
     private Long reviewCount;
-
     private String adminId;
 
     @Builder(builderClassName = "AddHospitalBuilder", builderMethodName = "AddHospitalBuilder")

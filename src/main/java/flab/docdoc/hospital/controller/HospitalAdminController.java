@@ -3,8 +3,6 @@ package flab.docdoc.hospital.controller;
 
 import flab.docdoc.hospital.request.UpdateHospitalAdminRequest;
 import flab.docdoc.hospital.service.HospitalAdminService;
-import flab.docdoc.hospital.service.HospitalAdminServiceImpl;
-import flab.docdoc.hospital.service.HospitalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

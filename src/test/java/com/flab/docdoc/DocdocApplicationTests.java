@@ -1,4 +1,4 @@
-package com.flab.docdoc;
+//package com.flab.docdoc;
 
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;
