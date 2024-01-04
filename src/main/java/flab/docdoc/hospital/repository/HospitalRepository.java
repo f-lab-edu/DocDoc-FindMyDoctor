@@ -18,7 +18,7 @@ public interface HospitalRepository {
     public int save(Hospital hospital);
 
     public int update(Hospital hospital);
-    public int updateAdmin(@Param("uniqueId") final String hospitalUniqueId, @Param("memberUniqueId") final Long memberUniqueId);
+    public int updateAdmin(@Param("uniqueId") final String hospitalUniqueId, @Param("loginId") final String loginId);
     public int updateStatistics(HospitalStatistics statistics);
 
 }

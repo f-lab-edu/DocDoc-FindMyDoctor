@@ -8,6 +8,4 @@ public class UpdateHospitalAdminRequest {
 
     @NotNull
     private String hospitalUniqueId;
-    @NotNull
-    private Long memberUniqueId;
 }

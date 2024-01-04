@@ -47,8 +47,15 @@ public class HospitalServiceImpl implements HospitalService{
 
     @Override
     @Transactional
-    public void update(UpdateHospitalRequest request) {
-        findByUniqueId(request.getUniqueId()).orElseThrow(() -> {throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");});
+    public void update(UpdateHospitalRequest request, final String loginId) {
+        Hospital existHospital = findByUniqueId(request.getUniqueId()).orElseThrow(() -> {
+            throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
+        });
+
+
+        if(!existHospital.getAdminId().equals(loginId)) {
+            throw new IllegalArgumentException("현재 회원은 병원 관리자가 아닙니다.");
+        }
 
         Hospital hospital = UpdateHospitalRequest.of(request);
 
@@ -61,11 +68,11 @@ public class HospitalServiceImpl implements HospitalService{
     }
 
     @Override
-    public void updateAdmin(final String hospitalUniqueId, final Long memberUniqueId) {
+    public void updateAdmin(final String hospitalUniqueId, final String loginId) {
         if (hospitalUniqueId == null) {
             throw new IllegalArgumentException("입력 정보 오류. 병원 정보를 다시 확인해주세요.");
         }
-        int updateResult = hospitalRepository.updateAdmin(hospitalUniqueId, memberUniqueId);
+        int updateResult = hospitalRepository.updateAdmin(hospitalUniqueId, loginId);
 
         if (updateResult != 1) {
             throw new IllegalArgumentException("병원 정보 수정실패. 다시 시도해주세요.");

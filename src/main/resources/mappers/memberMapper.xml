@@ -30,14 +30,13 @@
             #{email})
     </insert>
 
-
     <update id="update" parameterType="flab.docdoc.member.domain.Member">
         UPDATE member
         SET
             password = #{password},
             email= #{email}
         WHERE
-            unique_id = #{uniqueId}
+            login_id = #{loginId}
     </update>
 
     <update id="updateMemberRole" >
@@ -45,7 +44,7 @@
         SET
             role = #{role}
         WHERE
-            unique_id = #{uniqueId}
+            login_id = #{loginId}
     </update>
 
 
