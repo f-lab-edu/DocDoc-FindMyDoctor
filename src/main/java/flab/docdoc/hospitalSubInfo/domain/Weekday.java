@@ -1,5 +1,7 @@
 package flab.docdoc.hospitalSubInfo.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +25,8 @@ public enum Weekday {
     private static final Map<Integer, Weekday> codeSequenceMap =
             Stream.of(values()).collect(Collectors.toMap(Weekday::getSequence, e -> e));
 
+    @JsonCreator
     public static Weekday ToEnum(int sequence) {
-        return Optional.ofNullable(codeSequenceMap.get(sequence)).orElseThrow(() -> new IllegalStateException("존재하지 않는 요일 입니다."));
+        return codeSequenceMap.get(sequence);
     }
 }

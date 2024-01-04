@@ -2,7 +2,10 @@ package flab.docdoc.common.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import flab.docdoc.common.util.CodeEnumTypeHandler;
+import flab.docdoc.hospitalSubInfo.domain.Subject;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -20,7 +23,7 @@ import javax.sql.DataSource;
         "flab.docdoc.member.repository, " +
         "flab.docdoc.hospital.repository, " +
         "flab.docdoc.hospitalSubInfo.repository, " +
-                "flab.docdoc.review.repository")
+        "flab.docdoc.review.repository")
 public class DatabaseConfig {
 
     @Bean

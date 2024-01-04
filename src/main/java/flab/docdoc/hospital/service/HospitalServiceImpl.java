@@ -4,8 +4,7 @@ import flab.docdoc.hospital.domain.Hospital;
 import flab.docdoc.hospital.repository.HospitalRepository;
 import flab.docdoc.hospital.request.AddHospitalRequest;
 import flab.docdoc.hospital.request.UpdateHospitalRequest;
-import flab.docdoc.hospital.response.HospitalResponse;
-import flab.docdoc.hospitalSubInfo.domain.SubInfo;
+import flab.docdoc.hospital.response.HospitalDetailResponse;
 import flab.docdoc.hospitalSubInfo.service.HospitalSubInfoService;
 import flab.docdoc.review.domain.HospitalStatistics;
 import lombok.RequiredArgsConstructor;
@@ -81,19 +80,17 @@ public class HospitalServiceImpl implements HospitalService{
     }
 
     @Override
-    public HospitalResponse getHospitalResponse(String hospitalUniqueId) {
+    public HospitalDetailResponse getHospital(final String hospitalUniqueId) {
         if (hospitalUniqueId == null) {
             throw new IllegalArgumentException("입력 값을 다시 확인해주세요.");
         }
 
-        HospitalResponse response = hospitalRepository.findHospitalResponseByUniqueId(hospitalUniqueId);
+        HospitalDetailResponse response = hospitalRepository.getHospital(hospitalUniqueId);
         if (response == null) {
             throw new IllegalArgumentException("존재하지 않는 병원 입니다. 다시 확인해주세요.");
         }
 
-        SubInfo subInfo = hospitalSubInfoService.findByHospitalUniqueId(hospitalUniqueId);
-
-        return HospitalResponse.of(response, subInfo);
+        return response;
     }
 
 
